@@ -19,11 +19,11 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 | `server.js` | Static server Node (MIME types, port 8000, host 0.0.0.0) |
 | `jalankan_server.bat` | Shortcut: jalankan server + tampilkan IP |
 | `logo.png` | Logo brand di header |
-| `logo icon browser.png` | Favicon + apple-touch-icon |
+| `logo-icon-browser.png` | Favicon + apple-touch-icon |
 | `background.png` | Background header & CTA band (gradien hijau overlay) |
-| `Galeri Kami-1..11.jpeg` | 11 foto galeri sosial (link ke IG) |
+| `galeri-kami-1..11.jpeg` | 11 foto galeri sosial (link ke IG) |
 | `testimoni-1..3.jpeg` | 3 screenshot testimoni |
-| `NamaProduk-1/2/3.jpg` | Foto produk (Jersey, Jacket Coach, Kemeja Workshirt, Polo Shirt, T-Shirt Trident Bearer, rompi) |
+| `nama-produk-1/2/3.jpg` | Foto produk (jersey-1..3, jacket-coach-1..3, kemeja-workshirt-1..3, polo-shirt-spesial-hut-ri-81-1..3, t-shirt-trident-bearer-1..5, rompi-1..3) |
 
 ## STRUKTUR HALAMAN (urutan section di index.html)
 
@@ -83,14 +83,16 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 
 ## YANG BELUM DIKERJAKAN / CATATAN
 
-- **Meta & share masih placeholder `example.com`** (item #3 review) — disetujui dilewati dulu. Sebelum iklan Meta, WAJIB diganti domain asli + verifikasi og:image.
-- Halaman dioptimasi seluler: video header 4.6MB SUDAH dihapus (diganti `background.png` nyata 1MB, lalu jadi hero slider foto produk).
+- **Hosting**: repo GitHub `pagarnusaindo/pagarnusaindo` (publik) sudah ada, semua file ter-push (branch `main`). Meta og/twitter SUDAH diganti ke `https://pagarnusaindo.github.io/pagarnusaindo/`. **TUNGGU**: pengguna harus mengaktifkan GitHub Pages (Settings → Pages → Deploy from branch → main/root) → live di `https://pagarnusaindo.github.io/pagarnusaindo/`. Saat domain sendiri dibeli, ganti lagi meta ke domain kustom + tambah CNAME.
+- Halaman dioptimasi seluler: video header 4.6MB SUDAH dihapus (diganti `background.png`, lalu hero slider foto produk).
 - Jika menambahkan testimoni: crop seragam `height:400px` (`.testimoni-img`, 320px di HP).
 - Verifikasi cepat setelah edit: ekstrak `<script>` dari index.html → `node --check`. Server: `jalankan_server.bat`.
+- Git sudah terinstall; akses via `C:\Program Files\Git\cmd\git.exe` (PATH baru berlaku di sesi terminal baru).
 
 ## LOG SESI (append otomatis dari bawah)
 
 - **10 Sep 2026** — Setup awal s.d fitur pre-order statis: struktur halaman, produk jadi, galeri 11 foto, testimoni 3 screenshot, logo/favicon, countdown, WA template, optimasi HP, server.js + bat. Pagi: logika otomatis pre-order→ready stock + pesan "Stay tune". Sore: dibuat AGENTS.md ini + aturan auto-save global.
+- **10 Sep 2026** — Hosting ke GitHub: 26 file ber-spasi dirapikan jadi lowercase-hyphen (galeri-kami-*, jacket-coach-*, kemeja-workshirt-*, polo-shirt-spesial-hut-ri-81-*, t-shirt-trident-bearer-*, logo-icon-browser.png) + update semua referensi di index.html (37 aset valid). Git 2.55 diinstall via winget, repo lokal `main` di-init, commit `dc0ce68` (42 file) di-push ke `github.com/pagarnusaindo/pagarnusaindo`. Meta og/twitter placeholder `example.com` diganti URL GitHub Pages (commit `f283178`). BELUM: aktivasi GitHub Pages (menunggu di Settings user).
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->
