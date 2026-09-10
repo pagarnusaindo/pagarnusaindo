@@ -1,0 +1,5 @@
+# Windows / editor
+Thumbs.db
+desktop.ini
+*.swp
+.DS_Store

@@ -1,0 +1,1509 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagarnusaindo - Official Store</title>
+    <meta name="description" content="pagarnusaindo - Brand apparel lokal. Koleksi jersey oversize, kaos, polo shirt, jacket & rompi berkualitas. Pre-order & ready stock, pesan mudah via WhatsApp.">
+    <link rel="icon" type="image/png" href="logo-icon-browser.png">
+    <link rel="apple-touch-icon" href="logo-icon-browser.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Open Graph (untuk tampilan saat dibagikan di sosmed) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="pagarnusaindo - Official Store">
+    <meta property="og:description" content="Koleksi apparel lokal berkualitas: jersey oversize, kaos, polo shirt, jacket & rompi. Pesan mudah via WhatsApp.">
+    <meta property="og:image" content="https://example.com/logo.png">
+    <meta property="og:image:alt" content="Logo pagarnusaindo">
+    <meta property="og:url" content="https://example.com">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="pagarnusaindo - Official Store">
+    <meta name="twitter:description" content="Koleksi apparel lokal berkualitas. Pesan mudah via WhatsApp.">
+    <meta name="twitter:image" content="https://example.com/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            line-height: 1.25;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #1f4a2d 0%, #317144 35%, #8f9b2f 65%, #DAB139 110%);
+            background-attachment: fixed;
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ===== HEADER ===== */
+header {
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 420px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: #1f4a2d;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+
+        /* ===== SLIDE OTOMATIS HEADER ===== */
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-slider .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+
+        .hero-slider .slide.active {
+            opacity: 1;
+        }
+
+        header .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #F5D647;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        header p {
+            opacity: 0.95;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            color: white;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.45);
+        }
+
+        .section-title span {
+            background: transparent;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #DAB139;
+            margin: 0.5rem auto 0;
+        }
+
+        /* ===== BADGE ===== */
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .badge-preorder { background: #DAB139; color: #333; }
+        .badge-promo { background: #F58935; }
+        .badge-ready { background: #317144; }
+
+        /* ===== PRODUCT GRID ===== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .product-img {
+            aspect-ratio: 1 / 1;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #bbb;
+            overflow: hidden;
+        }
+
+        /* ===== IMAGE SLIDER ===== */
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slider .slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.4s ease;
+        }
+
+        .slider .slides img {
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .slider .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.4);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider .arrow:hover {
+            background: rgba(0,0,0,0.7);
+        }
+
+        .slider .arrow.prev { left: 6px; }
+        .slider .arrow.next { right: 6px; }
+
+        .slider .dots {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .slider .dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.6);
+            cursor: pointer;
+        }
+
+        .slider .dots span.active {
+            background: white;
+        }
+
+        /* ===== TOMBOL LIHAT SEMUA ===== */
+        .btn-see-all {
+            display: block;
+            width: 220px;
+            margin: 0 auto 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: #317144;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-see-all:hover {
+            background: #1f4a2d;
+        }
+
+        /* ===== MODAL LIHAT SEMUA PRODUK ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.open {
+            display: block;
+        }
+
+        .modal-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem 3rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .modal-header h2 {
+            font-size: 1.6rem;
+            color: #F5D647;
+        }
+
+        .modal-close {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            font-size: 1.6rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: white;
+            color: black;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.3rem;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .price-new {
+            color: #DAB139;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .price-normal {
+            font-weight: bold;
+            color: #317144;
+            font-size: 1.1rem;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn-preorder {
+            background: #DAB139;
+            color: #333;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        /* ===== TESTIMONI ===== */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #317144;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card h4 {
+            margin-bottom: 0.2rem;
+        }
+
+        .testimonial-card span {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .testimoni-img {
+            display: block;
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #1f4a2d;
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto 2rem;
+            text-align: left;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 0.8rem;
+            color: #F5D647;
+            font-size: 1rem;
+        }
+
+        .footer-col p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .footer-col a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+
+        .footer-col a:hover {
+            opacity: 1;
+            color: #F5D647;
+        }
+
+        .footer-col .footer-brand {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #F5D647;
+        }
+
+        footer .social-icons {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        footer .social-icons a {
+            font-size: 1.2rem;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        footer .social-icons a:hover {
+            opacity: 1;
+        }
+
+        .footer-copy {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1.2rem;
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+
+/* ===== SUB-SECTION LABEL ===== */
+        .sub-label {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.85);
+            text-align: center;
+            margin: -1rem auto 1.5rem;
+            font-weight: 500;
+        }
+
+        /* ===== COUNTDOWN PRE-ORDER ===== */
+        .countdown-box {
+            background: rgba(255,255,255,0.95);
+            border-radius: 14px;
+            padding: 1.2rem 1.5rem;
+            max-width: 560px;
+            margin: 0 auto 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .countdown-label {
+            font-weight: bold;
+            color: #317144;
+            margin-bottom: 0.8rem;
+        }
+
+        .countdown-label i {
+            color: #F58935;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .cd-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cd-num {
+            background: #317144;
+            color: #F5D647;
+            font-weight: bold;
+            font-size: 1.6rem;
+            min-width: 66px;
+            padding: 0.5rem 0.3rem;
+            border-radius: 10px;
+            margin-bottom: 0.3rem;
+        }
+
+        .cd-txt {
+            font-size: 0.8rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .countdown-note {
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .countdown-note.expired {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        /* ===== PESAN KOSONG PRE-ORDER ===== */
+        .empty-preorder {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .empty-preorder i {
+            font-size: 2.5rem;
+            color: #DAB139;
+            margin-bottom: 1rem;
+        }
+
+        .empty-preorder p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f4a2d;
+            margin-bottom: 1.2rem;
+        }
+
+        /* ===== CARA ORDER ===== */
+        .howto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            background: rgba(255,255,255,0.92);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .howto-step {
+            text-align: center;
+        }
+
+        .howto-step .step-num {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #317144;
+            color: #F5D647;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.8rem;
+        }
+
+        .howto-step h4 {
+            margin-bottom: 0.4rem;
+            color: #1f4a2d;
+        }
+
+        .howto-step p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .size-note {
+            text-align: center;
+            margin-top: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+        }
+
+        .size-note strong {
+            color: #F5D647;
+        }
+
+        /* ===== CTA HEADER ===== */
+        .btn-cta {
+            display: inline-block;
+            margin-top: 1.6rem;
+            padding: 0.9rem 2.2rem;
+            background: #F5D647;
+            color: #1f4a2d;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ===== TENTANG BRAND ===== */
+        .about-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .about-card p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .value-item {
+            background: rgba(255,255,255,0.95);
+            border-radius: 12px;
+            padding: 1.5rem 1.2rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        }
+
+        .value-item i {
+            font-size: 2rem;
+            color: #317144;
+            margin-bottom: 0.8rem;
+        }
+
+        .value-item h4 {
+            margin-bottom: 0.4rem;
+            color: #1f4a2d;
+        }
+
+        .value-item p {
+            font-size: 0.88rem;
+            color: #666;
+        }
+
+        /* ===== CTA BAND ===== */
+        .cta-band {
+            background:
+                linear-gradient(rgba(31, 74, 45, 0.82), rgba(49, 113, 68, 0.82)),
+                url('background.png') no-repeat center center/cover;
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            margin-bottom: 2rem;
+        }
+
+        .cta-band h3 {
+            color: white;
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        }
+
+        .cta-band p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== GALERI SOSIAL ===== */
+        .social-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-gallery a {
+            display: block;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            position: relative;
+        }
+
+        .social-gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .social-gallery a:hover img {
+            transform: scale(1.08);
+        }
+
+        .social-gallery a::after {
+            content: '\f16d';
+            font-family: 'Font Awesome 6 Brands';
+            font-weight: 900;
+            position: absolute;
+            bottom: 8px;
+            right: 10px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        /* ===== RESPONSIVE MOBILE ===== */
+        @media (max-width: 640px) {
+            body {
+                background-attachment: scroll;
+            }
+
+            header {
+                min-height: auto;
+                padding: 2.5rem 1rem;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+                letter-spacing: 1px;
+            }
+
+            header p {
+                font-size: 0.95rem;
+            }
+
+            .btn-cta {
+                padding: 0.8rem 1.6rem;
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding: 2.2rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.45rem;
+            }
+
+            .sub-label {
+                margin-top: -0.6rem;
+            }
+
+            .btn,
+            .btn-see-all,
+            .btn-cta {
+                touch-action: manipulation;
+            }
+
+            .btn {
+                padding: 0.85rem;
+                min-height: 46px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .btn-see-all {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .slider .arrow {
+                width: 34px;
+                height: 34px;
+            }
+
+            .countdown {
+                gap: 0.4rem;
+            }
+
+            .cd-num {
+                font-size: 1.25rem;
+                min-width: 54px;
+                padding: 0.4rem 0.2rem;
+            }
+
+            .cd-txt {
+                font-size: 0.72rem;
+            }
+
+            .values-grid {
+                grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+            }
+
+            .social-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+                gap: 0.7rem;
+            }
+
+            .howto-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.2rem;
+                padding: 1.5rem 1rem;
+            }
+
+            .modal-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+
+            .cta-band {
+                padding: 2rem 1.2rem;
+            }
+
+            .cta-band h3 {
+                font-size: 1.3rem;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimoni-img {
+                height: 320px;
+            }
+
+            footer {
+                padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+            }
+        }
+
+        @media (max-width: 400px) {
+            .howto-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="hero-slider" id="hero-slider"></div>
+        <img src="logo.png" alt="pagarnusaindo Logo" class="logo">
+        <h1>pagarnusaindo</h1>
+        <p>Gaya Kasual Modern untuk Aktivitas Sehari-hari</p>
+        <a href="#preorder" class="btn-cta"><i class="fas fa-box-open"></i> &nbsp;Lihat Koleksi</a>
+    </header>
+
+    <!-- TENTANG BRAND -->
+    <div class="container">
+        <h2 class="section-title"><span>Tentang Pagarnusaindo</span></h2>
+        <div class="about-card">
+            <p>
+                <strong>pagarnusaindo</strong> adalah brand apparel lokal yang lahir dari semangat
+                Pagar Nusa — menghadirkan pakaian berkualitas dengan identitas khas.
+                Setiap produk kami rancang dengan bahan pilihan, jahitan rapi, dan
+                ukuran yang nyaman dipakai. Dari pre-order hingga ready stock,
+                kami siap melayani gaya Anda.
+            </p>
+        </div>
+        <div class="values-grid">
+            <div class="value-item">
+                <i class="fas fa-medal"></i>
+                <h4>Bahan Berkualitas</h4>
+                <p>Kain tebal, adem & nyaman dipakai sehari-hari.</p>
+            </div>
+            <div class="value-item">
+                <i class="fas fa-ruler-combined"></i>
+                <h4>Ukuran Lengkap</h4>
+                <p>S hingga XL & oversize, bebas info size chart via chat.</p>
+            </div>
+            <div class="value-item">
+                <i class="fas fa-truck-fast"></i>
+                <h4>Pengiriman Cepat</h4>
+                <p>Ready stock dikirim di hari yang sama setelah bayar.</p>
+            </div>
+            <div class="value-item">
+                <i class="fab fa-whatsapp"></i>
+                <h4>Order Mudah</h4>
+                <p>Pesan cukup satu klik, langsung terhubung ke WhatsApp.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRE-ORDER / PROMO -->
+    <div class="container" id="preorder">
+        <h2 class="section-title"><span>Pre-Order & Promo Bundling</span></h2>
+        <p class="sub-label">Periode pre-order: 14 – 19 September 2026. Pesan sekarang, produksi setelah periode berakhir</p>
+
+        <div class="countdown-box" id="countdown-box">
+            <p class="countdown-label"><i class="fas fa-clock"></i> Sisa Waktu Pre-Order Berakhir</p>
+            <div class="countdown" id="preorder-countdown">
+                <div class="cd-item"><span class="cd-num" id="cd-days">-</span><span class="cd-txt">Hari</span></div>
+                <div class="cd-item"><span class="cd-num" id="cd-hours">-</span><span class="cd-txt">Jam</span></div>
+                <div class="cd-item"><span class="cd-num" id="cd-mins">-</span><span class="cd-txt">Menit</span></div>
+                <div class="cd-item"><span class="cd-num" id="cd-secs">-</span><span class="cd-txt">Detik</span></div>
+            </div>
+            <p class="countdown-note" id="cd-note">Jangan lewatkan, periode ini berlaku hingga tanggal di atas.</p>
+        </div>
+
+        <div class="product-grid" id="pre-order-grid"></div>
+    </div>
+
+    <!-- READY STOCK -->
+    <div class="container" id="ready-stock">
+        <h2 class="section-title"><span>Ready Stock</span></h2>
+        <p class="sub-label">Pesan langsung via WhatsApp, pengiriman hari ini</p>
+
+        <div class="product-grid" id="ready-stock-grid"></div>
+
+        <button class="btn-see-all" onclick="openAllProducts()">
+            <i class="fas fa-box-open"></i> Lihat Semua Produk
+        </button>
+    </div>
+
+    <!-- MODAL LIHAT SEMUA PRODUK -->
+    <div class="modal" id="all-products-modal" role="dialog" aria-modal="true" aria-label="Semua Produk Ready Stock">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-box-open"></i> Semua Produk Ready Stock</h2>
+                <button class="modal-close" onclick="closeAllProducts()" aria-label="Tutup">&times;</button>
+            </div>
+            <div class="modal-grid" id="all-products-grid"></div>
+        </div>
+    </div>
+
+<!-- CARA ORDER -->
+    <div class="container" id="cara-order">
+        <h2 class="section-title"><span>Cara Order</span></h2>
+
+        <div class="howto-grid">
+            <div class="howto-step">
+                <div class="step-num">1</div>
+                <h4>Pilih Produk</h4>
+                <p>Klik tombol pesan pada produk pilihan Anda.</p>
+            </div>
+            <div class="howto-step">
+                <div class="step-num">2</div>
+                <h4>Chat WhatsApp</h4>
+                <p>WhatsApp admin terbuka otomatis dengan pesan pesanan.</p>
+            </div>
+            <div class="howto-step">
+                <div class="step-num">3</div>
+                <h4>Konfirmasi Ukuran</h4>
+                <p>Sebutkan ukuran & warna yang diinginkan (S/M/L/XL).</p>
+            </div>
+            <div class="howto-step">
+                <div class="step-num">4</div>
+                <h4>Bayar & Dikirim</h4>
+                <p>Admin konfirmasi harga, Anda bayar, pesanan dikirim.</p>
+            </div>
+        </div>
+
+        <p class="size-note">
+            <i class="fas fa-ruler-combined"></i> Ingin tahu size chart? Bilang saja di chat: <strong>&quot;minta size chart&quot;</strong> — admin akan kirim tabel ukurannya.
+        </p>
+    </div>
+
+    <!-- CTA BAND -->
+    <div class="container" id="galeri">
+        <div class="cta-band">
+            <h3>Siap Tampil dengan Koleksi Kami?</h3>
+            <p>Langganan harga promo pre-order & ready stock terbaru langsung dari admin.</p>
+            <a href="#" class="wa-link btn-see-all" data-wa-text="Halo saya tertarik dengan koleksi pagarnusaindo, boleh dibantu?">
+                <i class="fab fa-whatsapp"></i> Chat Admin Sekarang
+            </a>
+        </div>
+
+        <h2 class="section-title"><span>Galeri Kami</span></h2>
+        <p class="sub-label">Ikuti kami di Instagram untuk update koleksi terbaru & sesi foto pelanggan</p>
+        <div class="social-gallery">
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-1.jpeg" alt="Galeri pagarnusaindo 1">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-2.jpeg" alt="Galeri pagarnusaindo 2">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-3.jpeg" alt="Galeri pagarnusaindo 3">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-4.jpeg" alt="Galeri pagarnusaindo 4">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-5.jpeg" alt="Galeri pagarnusaindo 5">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-6.jpeg" alt="Galeri pagarnusaindo 6">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-7.jpeg" alt="Galeri pagarnusaindo 7">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-8.jpeg" alt="Galeri pagarnusaindo 8">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-9.jpeg" alt="Galeri pagarnusaindo 9">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-10.jpeg" alt="Galeri pagarnusaindo 10">
+            </a>
+            <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank">
+                <img src="galeri-kami-11.jpeg" alt="Galeri pagarnusaindo 11">
+            </a>
+        </div>
+    </div>
+
+    <!-- TESTIMONI -->
+    <div class="container">
+        <h2 class="section-title"><span>Testimoni</span></h2>
+
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <img src="testimoni-1.jpeg" alt="Testimoni pelanggan 1" class="testimoni-img">
+            </div>
+            <div class="testimonial-card">
+                <img src="testimoni-2.jpeg" alt="Testimoni pelanggan 2" class="testimoni-img">
+            </div>
+            <div class="testimonial-card">
+                <img src="testimoni-3.jpeg" alt="Testimoni pelanggan 3" class="testimoni-img">
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <p class="footer-brand">pagarnusaindo</p>
+                <p>Brand apparel lokal. Koleksi kasual modern untuk aktivitas sehari-hari — bahan berkualitas, ukuran lengkap, order mudah via WhatsApp.</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/kaospagarnusaindo" target="_blank" aria-label="Instagram pagarnusaindo"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="wa-link" data-wa-text="Halo, saya ingin bertanya tentang produk" aria-label="WhatsApp pagarnusaindo"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.tiktok.com/@pagarnusaindo" target="_blank" aria-label="TikTok pagarnusaindo"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <a href="#preorder">Pre-Order & Promo Bundling</a>
+                <a href="#ready-stock">Ready Stock</a>
+                <a href="#cara-order">Cara Order</a>
+                <a href="#galeri">Galeri Kami</a>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak & Layanan</h4>
+                <p><i class="fab fa-whatsapp"></i> +62 857-3629-1986</p>
+                <p><i class="fab fa-instagram"></i> @kaospagarnusaindo</p>
+                <p><i class="fab fa-tiktok"></i> @pagarnusaindo</p>
+                <p><i class="far fa-clock"></i> Senin – Sabtu, 09.00 – 21.00 WIB</p>
+            </div>
+        </div>
+        <p class="footer-copy">&copy; 2026 pagarnusaindo. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // ============================================
+        // GANTI NOMOR WHATSAPP DI SINI (cukup 1 tempat)
+        // ============================================
+        var WA_NUMBER = '6285736291986';
+
+        // ============================================
+        // DEADLINE PRE-ORDER (ubah di sini jika perlu)
+        // Format: 'YYYY-MM-DDTHH:mm:ss'
+        // ============================================
+        var PREORDER_END = '2026-09-19T23:59:59';
+
+        function pad2(n) {
+            return (n < 10 ? '0' : '') + n;
+        }
+
+        function updateCountdown() {
+            var end = new Date(PREORDER_END).getTime();
+            var diff = end - new Date().getTime();
+            var note = document.getElementById('cd-note');
+
+            if (diff <= 0) {
+                document.getElementById('cd-days').textContent = '00';
+                document.getElementById('cd-hours').textContent = '00';
+                document.getElementById('cd-mins').textContent = '00';
+                document.getElementById('cd-secs').textContent = '00';
+                note.textContent = 'Periode pre-order telah berakhir. Terima kasih sudah berpartisipasi!';
+                note.className = 'countdown-note expired';
+                return;
+            }
+
+            var s = Math.floor(diff / 1000);
+            document.getElementById('cd-days').textContent = pad2(Math.floor(s / 86400));
+            document.getElementById('cd-hours').textContent = pad2(Math.floor((s % 86400) / 3600));
+            document.getElementById('cd-mins').textContent = pad2(Math.floor((s % 3600) / 60));
+            document.getElementById('cd-secs').textContent = pad2(s % 60);
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+// ============================================
+        // DATA SEMUA PRODUK (SATU SUMBER)
+        // type: 'preorder' atau 'ready'
+        // Tambah / kurangi produk di sini saja. Images
+        // bisa 1 foto atau lebih (slider otomatis).
+        // Pesan WhatsApp dibuat otomatis dari template
+        // di fungsi buildWaMessage().
+        // ============================================
+        var PRODUCTS = [
+            // ===== READY STOCK =====
+            {
+                type: 'ready',
+                name: 'Jersey 86 Oversize',
+                price: 'Rp 145.000',
+                images: ['Jersey-1.jpg', 'Jersey-2.jpg', 'Jersey-3.jpg']
+            },
+            {
+                type: 'ready',
+                name: 'T-Shirt Trident Bearer',
+                price: 'Rp 110.000',
+                images: ['t-shirt-trident-bearer-1.jpg', 't-shirt-trident-bearer-2.jpg', 't-shirt-trident-bearer-3.jpg', 't-shirt-trident-bearer-4.jpg', 't-shirt-trident-bearer-5.jpg']
+            },
+            {
+                type: 'ready',
+                name: 'Jacket Coach',
+                price: 'Rp 175.000',
+                images: ['jacket-coach-1.jpg', 'jacket-coach-2.jpg', 'jacket-coach-3.jpg']
+            },
+            {
+                type: 'ready',
+                name: 'Polo Shirt Spesial HUT RI 81',
+                price: 'Rp 125.000',
+                images: ['polo-shirt-spesial-hut-ri-81-1.jpg', 'polo-shirt-spesial-hut-ri-81-2.jpg', 'polo-shirt-spesial-hut-ri-81-3.jpg']
+            },
+            {
+                type: 'ready',
+                name: 'Kemeja Workshirt',
+                price: 'Rp 150.000',
+                images: ['kemeja-workshirt-1.jpg', 'kemeja-workshirt-2.jpg', 'kemeja-workshirt-3.jpg']
+            },
+            // ===== PRE-ORDER & PROMO BUNDLING =====
+            {
+                type: 'preorder',
+                name: 'Rompi',
+                priceOld: 'Rp 155.000',
+                priceNew: 'Rp 145.000',
+                images: ['rompi-1.jpg', 'rompi-2.jpg', 'rompi-3.jpg']
+            }
+        ];
+
+        // ============================================
+        // FUNGSI RENDER KARTU PRODUK
+        // Dipakai untuk grid utama, pre-order & modal
+        // ============================================
+        function renderProductCards(products, containerId, prefix, limit) {
+            var container = document.getElementById(containerId);
+            container.innerHTML = '';
+            var list = limit && products.length > limit ? products.slice(0, limit) : products;
+
+            list.forEach(function (p, idx) {
+                var sliderId = prefix + '-slider-' + idx;
+
+                var imgHtml;
+                if (p.images.length === 1) {
+                    imgHtml = '<img src="' + p.images[0] + '" alt="' + p.name + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">';
+                } else {
+                    imgHtml = '<div class="slider" id="' + sliderId + '">' +
+                        '<div class="slides">' +
+                        p.images.map(function (im) {
+                            return '<img src="' + im + '" alt="' + p.name + '" loading="lazy">';
+                        }).join('') +
+                        '</div>' +
+                        '<button class="arrow prev" onclick="slideMove(\'' + sliderId + '\', -1)" aria-label="Foto sebelumnya">&#10094;</button>' +
+                        '<button class="arrow next" onclick="slideMove(\'' + sliderId + '\', 1)" aria-label="Foto berikutnya">&#10095;</button>' +
+                        '<div class="dots"></div>' +
+                        '</div>';
+                }
+
+                var isPre = p.type === 'preorder';
+                var badge = isPre ? '<span class="badge badge-preorder">Pre-Order</span>' : '<span class="badge badge-ready">Ready Stock</span>';
+
+                var priceHtml;
+                if (isPre) {
+                    priceHtml = '<span class="price-old">' + p.priceOld + '</span><span class="price-new">' + p.priceNew + '</span>';
+                } else {
+                    priceHtml = '<span class="price-normal">' + p.price + '</span>';
+                }
+
+                var btnClass = isPre ? 'btn-preorder' : 'btn-whatsapp';
+                var btnText = isPre ? '<i class="fas fa-shopping-bag"></i> Pre-Order Sekarang' : '<i class="fab fa-whatsapp"></i> Pesan via WhatsApp';
+
+                var card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML =
+                    badge +
+                    '<div class="product-img">' + imgHtml + '</div>' +
+                    '<div class="product-info">' +
+                    '<h3>' + p.name + '</h3>' +
+                    '<div class="product-price">' + priceHtml + '</div>' +
+                    '<a href="#" data-wa-text="' + buildWaMessage(p.name) + '" class="btn ' + btnClass + ' wa-link" target="_blank">' +
+                    btnText + '</a>' +
+                    '</div>';
+
+                container.appendChild(card);
+            });
+        }
+
+        // ============================================
+        // LOGIKA PRE-ORDER & PERPINDAHAN OTOMATIS
+        // Saat masa pre-order berakhir (PREORDER_END),
+        // semua produk pre-order otomatis pindah ke
+        // ready stock dan harga kembali normal
+        // (tanpa potongan / menggunakan harga lama).
+        // ============================================
+        function isPreorderActive() {
+            return new Date(PREORDER_END).getTime() > new Date().getTime();
+        }
+
+        function getEffectiveProducts() {
+            return PRODUCTS.map(function (p) {
+                if (p.type === 'preorder' && !isPreorderActive()) {
+                    var np = {};
+                    for (var k in p) if (p.hasOwnProperty(k)) np[k] = p[k];
+                    np.type = 'ready';
+                    np.price = p.priceOld || p.priceNew || p.price;
+                    return np;
+                }
+                return p;
+            });
+        }
+
+        function renderPreorderSection() {
+            var grid = document.getElementById('pre-order-grid');
+            var cd = document.getElementById('countdown-box');
+            var pre = PRODUCTS.filter(function (p) { return p.type === 'preorder'; });
+
+            if (isPreorderActive() && pre.length) {
+                if (cd) cd.style.display = '';
+                renderProductCards(pre, 'pre-order-grid', 'pre');
+            } else {
+                if (cd) cd.style.display = 'none';
+                grid.innerHTML =
+                    '<div class="empty-preorder">' +
+                    '<i class="fas fa-hourglass-half"></i>' +
+                    '<p>Nantikan Pre-Order &amp; Promo selanjutnya, Stay tune..!!</p>' +
+                    '<a href="#ready-stock" class="btn btn-whatsapp" style="max-width:280px;margin:0 auto;">Lihat Ready Stock</a>' +
+                    '</div>';
+            }
+        }
+
+        // Render section (awal)
+        var effective = getEffectiveProducts();
+        renderPreorderSection();
+        renderProductCards(effective.filter(function (p) { return p.type === 'ready'; }), 'ready-stock-grid', 'rs', 3);
+
+        // ============================================
+        // MODAL SEMUA PRODUK (jumlah tidak terbatas)
+        // ============================================
+        function openAllProducts() {
+            renderProductCards(getEffectiveProducts().filter(function (p) { return p.type === 'ready'; }), 'all-products-grid', 'all');
+            setupSliders(); // siapkan slider untuk semua kartu
+            setupWaLinks();  // set semua link WhatsApp
+            document.getElementById('all-products-modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAllProducts() {
+            document.getElementById('all-products-modal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // Tutup modal saat klik di area luar konten
+        document.getElementById('all-products-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeAllProducts();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeAllProducts();
+        });
+
+        // ============================================
+        // SET LINK WHATSAPP & SLIDER (dipanggil ulang)
+        // ============================================
+        function setupWaLinks() {
+            document.querySelectorAll('.wa-link').forEach(function (link) {
+                var text = link.getAttribute('data-wa-text') || 'Halo, saya ingin bertanya';
+                link.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text);
+            });
+        }
+
+        // Template pesan pemesanan yang otomatis terisi di WhatsApp
+        function buildWaMessage(productName) {
+            return "Saya ingin memesan '" + productName + "',\n" +
+                'Nama Penerima:\n' +
+                'Alamat Tujuan:\n' +
+                'Ket;\n' +
+                '(ukuran) (warna) (panjang/pendek)\n' +
+                'No.Telp/WA Penerima;';
+        }
+
+        function setupSliders() {
+            document.querySelectorAll('.slider .dots').forEach(function (dotsBox) {
+                dotsBox.innerHTML = ''; // kosongkan dulu (hindari duplikat)
+            });
+
+            document.querySelectorAll('.slider').forEach(function (slider) {
+                var total = slider.querySelectorAll('.slides img').length;
+                var dotsBox = slider.querySelector('.dots');
+                slider.setAttribute('data-index', '0');
+                slider.querySelector('.slides').style.transform = 'translateX(0)';
+                dotsBox.innerHTML = '';
+                for (var i = 0; i < total; i++) {
+                    (function (idx) {
+                        var dot = document.createElement('span');
+                        if (idx === 0) dot.className = 'active';
+                        dot.onclick = function () { goToSlide(slider.id, idx); };
+                        dotsBox.appendChild(dot);
+                    })(i);
+                }
+            });
+        }
+
+        // Setup awal setelah render grid utama
+        setupSliders();
+        setupWaLinks();
+
+        // Slide otomatis header: semua foto produk Pre-Order & Promo Bundling
+        // (bila pre-order sudah berakhir/kosong, otomatis pakai ready stock)
+        function buildHeroSlider() {
+            var slider = document.getElementById('hero-slider');
+            if (!slider) return;
+            var eff = getEffectiveProducts();
+            var src = eff.filter(function (p) { return p.type === 'preorder'; });
+            if (!src.length) src = eff.filter(function (p) { return p.type === 'ready'; });
+            var slidesHtml = '';
+            src.forEach(function (p) {
+                p.images.forEach(function (im) {
+                    slidesHtml += '<div class="slide" style="background-image:url(\'' + im + '\');"></div>';
+                });
+            });
+            slider.innerHTML = slidesHtml;
+            var slides = slider.querySelectorAll('.slide');
+            if (!slides.length) return;
+            slides[0].classList.add('active');
+            var i = 0;
+            setInterval(function () {
+                slides[i].classList.remove('active');
+                i = (i + 1) % slides.length;
+                slides[i].classList.add('active');
+            }, 3500);
+        }
+        buildHeroSlider();
+
+        // Lazy-load gambar di bawah layar (hemat data di HP)
+        document.querySelectorAll('.social-gallery img, .testimoni-img').forEach(function (img) {
+            img.loading = 'lazy';
+            img.decoding = 'async';
+        });
+
+        // ============================================
+        // SLIDER MULTI-GAMBAR PRODUK
+        // ============================================
+        function slideMove(sliderId, dir) {
+            var slider = document.getElementById(sliderId);
+            var slides = slider.querySelector('.slides');
+            var total = slides.children.length;
+            var index = parseInt(slider.getAttribute('data-index') || '0');
+            index = (index + dir + total) % total;
+            slider.setAttribute('data-index', index);
+            slides.style.transform = 'translateX(-' + (index * 100) + '%)';
+            updateDots(slider);
+        }
+
+        function goToSlide(sliderId, index) {
+            var slider = document.getElementById(sliderId);
+            var slides = slider.querySelector('.slides');
+            slider.setAttribute('data-index', index);
+            slides.style.transform = 'translateX(-' + (index * 100) + '%)';
+            updateDots(slider);
+        }
+
+        function updateDots(slider) {
+            var dots = slider.querySelectorAll('.dots span');
+            var index = parseInt(slider.getAttribute('data-index') || '0');
+            dots.forEach(function (d, i) {
+                d.classList.toggle('active', i === index);
+            });
+        }
+    </script>
+
+</body>
+</html>
+
