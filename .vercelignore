@@ -1,0 +1,8 @@
+.git
+.gitignore
+server.js
+jalankan_server.bat
+AGENTS.md
+*.md
+Thumbs.db
+desktop.ini
