@@ -7,7 +7,7 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 - **Lokasi**: `C:\Users\Lenovo\Documents\pagarnusaindo`
 - **Teknologi**: 1 file `index.html` (CSS inline + JS inline, tanpa build). Server statis Node.js.
 - **WA bisnis**: `+62 857-3629-1986`
-- **Sosmed**: Instagram & TikTok `pagarnusaindo`
+- **Sosmed (di halaman)**: IG `@kaospagarnusaindo` (13 ref) & TikTok `@pagarnusaindo` (2 ref) — **tidak seragam, perlu konfirmasi handle mana yang benar**
 - **Menjalankan lokal**: klik `jalankan_server.bat` (menjalankan `node server.js`, port 8000) — IP Wi-Fi ditampilkan di panel .bat, buka di HP via IP itu, atau `node server.js` lalu `http://localhost:8000`
 - **Catatan mesin**: Python TIDAK terpasang; Node v24 TERSEDIA. OS Windows.
 
@@ -83,9 +83,14 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 
 ## YANG BELUM DIKERJAKAN / CATATAN
 
-- **LIVE**: landing page online di **https://pagarnusaindo.vercel.app** (Vercel prod, static builder via `vercel.json` builds, alias otomatis). Deploy ulang: `vercel.cmd deploy --prod --yes` dari folder proyek (login sudah tersimpan). Repo GitHub `pagarnusaindo/pagarnusaindo` tetap sinkron (branch `main`).
-- **Next (saat beli domain)**: tambah domain kustom di dashboard Vercel (Pengaturan → Domain), lalu ganti meta og/twitter (`https://pagarnusaindo.vercel.app/...`) ke domain baru + verifikasi og:image. Sebelum iklan Meta, pastikan preview share benar.
-- **Opsional**: GitHub Pages bisa jadi cadangan (Settings → Pages → Deploy from branch → main/root), tapi kurasi Vercel karena meta og sudah menunjuk ke Vercel.
+- **LIVE**: landing page online di **https://pagarnusaindo.vercel.app** (Vercel prod, static builder via `vercel.json` builds, alias otomatis). Tetap bisa dipakai sambil menunggu domain. Deploy ulang: `vercel.cmd deploy --prod --yes` dari folder proyek (login tersimpan). Repo GitHub `pagarnusaindo/pagarnusaindo` sinkron (branch `main`).
+- **DOMAIN DALAM PROSES (prioritas next sesi)**: `pagarnusaindo.my.id` dibeli malam 10 Sep di **Domainesia**, status "Aktif", NS `nsx1.domainesia.com` & `nsx2.domainesia.com`. DNS global masih **NXDOMAIN** (delegasi PANDI belum aktif; normal 1–24 jam sejak pembelian). Vercel masih menampilkan **"konfigurasi tidak valid"** (wajar selama DNS belum resolve). Setelah domain resolve:
+  1. Di **DNS Zone Domainesia** tambah record: A `@` → `76.76.21.21`; CNAME `www` → `cname.vercel-dns.com`.
+  2. Di Vercel (Dashboard → proyek → Settings → Domains): domain `pagarnusaindo.my.id` + `www` sudah ditambahkan user; harap akan berubah hijau otomatis (atau klik Refresh).
+  3. Ganti meta og/twitter di `index.html` dari `https://pagarnusaindo.vercel.app/...` → `https://pagarnusaindo.my.id/...` → redeploy + verifikasi preview share (og:image = `https://pagarnusaindo.my.id/logo.png`).
+  - Jika masih NXDOMAIN >24 jam → hubungi support Domainesia.
+- **QA live page (10 Sep malam)**: title/meta description OK; nomor WA `6285736291986` benar (link dibangun runtime, bukan di HTML statis); template pesan WA OK; countdown `2026-09-19T23:59:59`; grid pre-order/ready/modal/"Stay tune" semuanya ada. **Temuan**: handle IG (@kaospagarnusaindo) berbeda dengan TikTok (@pagarnusaindo) → konfirmasi handle yang benar lalu samakan di halaman + doc.
+- **Opsional**: tambahkan JSON-LD (data terstruktur toko/produk) untuk SEO; siapkan 3–5 aset iklan + caption (untuk Meta nanti); GitHub Pages bisa jadi cadangan (belum diaktifkan)
 - Halaman dioptimasi seluler: video header 4.6MB SUDAH dihapus (diganti `background.png`, lalu hero slider foto produk).
 - Jika menambahkan testimoni: crop seragam `height:400px` (`.testimoni-img`, 320px di HP).
 - Verifikasi cepat setelah edit: ekstrak `<script>` dari index.html → `node --check`. Server lokal: `jalankan_server.bat`.
@@ -96,6 +101,7 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 - **10 Sep 2026** — Setup awal s.d fitur pre-order statis: struktur halaman, produk jadi, galeri 11 foto, testimoni 3 screenshot, logo/favicon, countdown, WA template, optimasi HP, server.js + bat. Pagi: logika otomatis pre-order→ready stock + pesan "Stay tune". Sore: dibuat AGENTS.md ini + aturan auto-save global.
 - **10 Sep 2026** — Hosting ke GitHub: 26 file ber-spasi dirapikan jadi lowercase-hyphen (galeri-kami-*, jacket-coach-*, kemeja-workshirt-*, polo-shirt-spesial-hut-ri-81-*, t-shirt-trident-bearer-*, logo-icon-browser.png) + update semua referensi di index.html (37 aset valid). Git 2.55 diinstall via winget, repo lokal `main` di-init, commit `dc0ce68` (42 file) di-push ke `github.com/pagarnusaindo/pagarnusaindo`. Meta og/twitter placeholder `example.com` diganti URL GitHub Pages (commit `f283178`). BELUM: aktivasi GitHub Pages (menunggu di Settings user).
 - **10 Sep 2026** — DEPLOY VERCEL SUKSES: **landing page LIVE di https://pagarnusaindo.vercel.app**. Pendekatan: install vercel CLI (`npm.cmd -g install vercel`; npm.ps1 diblokir), login GitHub via device flow (`vercel.cmd login --github`), deploy pertama gagal karena Vercel deteksi salah "Node" (Tanpa package.json, butuh entrypoint) → diperbaiki dengan `vercel.json` paksa static builder (`builds:[{src:'**',use:'@vercel/static'}]` + routes). Deploy kedua/ketiga sukses 13–15s. `.vercelignore` dibuat (eksklusi .git, server.js, bat, AGENTS.md, md). Meta og/twitter di-update ke domain vercel (commit `1db1299`). Next: domain kustom nanti. Opsional: GitHub Pages masih belum diaktifkan user.
+- **10 Sep 2026 (malam)** — Domain & QA: user beli `pagarnusaindo.my.id` (Domainesia, status Aktif, NS nsx1/nsx2.domainesia.com); DNS global masih NXDOMAIN (delegasi PANDI belum aktif, normal ≤24 jam) → Vercel tampil merah "konfigurasi tidak valid" (wajar). Saran: tambah record A `@`→76.76.21.21 + CNAME `www`→cname.vercel-dns.com di DNS Zone Domainesia, tunggu propagasi, lalu ganti meta og ke domain baru + redeploy. QA halaman live vercel.app: semua OK (WA 6285736291986, template, countdown, grid). Temuan: handle IG (@kaospagarnusaindo) vs TikTok (@pagarnusaindo) belum seragam — konfirmasi user. Sesi ditutup: besok lanjut cek DNS → record → hijau → meta domain.
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->
