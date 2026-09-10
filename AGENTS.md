@@ -83,16 +83,19 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 
 ## YANG BELUM DIKERJAKAN / CATATAN
 
-- **Hosting**: repo GitHub `pagarnusaindo/pagarnusaindo` (publik) sudah ada, semua file ter-push (branch `main`). Meta og/twitter SUDAH diganti ke `https://pagarnusaindo.github.io/pagarnusaindo/`. **TUNGGU**: pengguna harus mengaktifkan GitHub Pages (Settings → Pages → Deploy from branch → main/root) → live di `https://pagarnusaindo.github.io/pagarnusaindo/`. Saat domain sendiri dibeli, ganti lagi meta ke domain kustom + tambah CNAME.
+- **LIVE**: landing page online di **https://pagarnusaindo.vercel.app** (Vercel prod, static builder via `vercel.json` builds, alias otomatis). Deploy ulang: `vercel.cmd deploy --prod --yes` dari folder proyek (login sudah tersimpan). Repo GitHub `pagarnusaindo/pagarnusaindo` tetap sinkron (branch `main`).
+- **Next (saat beli domain)**: tambah domain kustom di dashboard Vercel (Pengaturan → Domain), lalu ganti meta og/twitter (`https://pagarnusaindo.vercel.app/...`) ke domain baru + verifikasi og:image. Sebelum iklan Meta, pastikan preview share benar.
+- **Opsional**: GitHub Pages bisa jadi cadangan (Settings → Pages → Deploy from branch → main/root), tapi kurasi Vercel karena meta og sudah menunjuk ke Vercel.
 - Halaman dioptimasi seluler: video header 4.6MB SUDAH dihapus (diganti `background.png`, lalu hero slider foto produk).
 - Jika menambahkan testimoni: crop seragam `height:400px` (`.testimoni-img`, 320px di HP).
-- Verifikasi cepat setelah edit: ekstrak `<script>` dari index.html → `node --check`. Server: `jalankan_server.bat`.
-- Git sudah terinstall; akses via `C:\Program Files\Git\cmd\git.exe` (PATH baru berlaku di sesi terminal baru).
+- Verifikasi cepat setelah edit: ekstrak `<script>` dari index.html → `node --check`. Server lokal: `jalankan_server.bat`.
+- Git terinstall; akses `C:\Program Files\Git\cmd\git.exe` (PATH baru berlaku di sesi baru). Vercel CLI global via `npm.cmd`; npm.ps1 diblokir execution policy → selalu pakai `npm.cmd`/`vercel.cmd`.
 
 ## LOG SESI (append otomatis dari bawah)
 
 - **10 Sep 2026** — Setup awal s.d fitur pre-order statis: struktur halaman, produk jadi, galeri 11 foto, testimoni 3 screenshot, logo/favicon, countdown, WA template, optimasi HP, server.js + bat. Pagi: logika otomatis pre-order→ready stock + pesan "Stay tune". Sore: dibuat AGENTS.md ini + aturan auto-save global.
 - **10 Sep 2026** — Hosting ke GitHub: 26 file ber-spasi dirapikan jadi lowercase-hyphen (galeri-kami-*, jacket-coach-*, kemeja-workshirt-*, polo-shirt-spesial-hut-ri-81-*, t-shirt-trident-bearer-*, logo-icon-browser.png) + update semua referensi di index.html (37 aset valid). Git 2.55 diinstall via winget, repo lokal `main` di-init, commit `dc0ce68` (42 file) di-push ke `github.com/pagarnusaindo/pagarnusaindo`. Meta og/twitter placeholder `example.com` diganti URL GitHub Pages (commit `f283178`). BELUM: aktivasi GitHub Pages (menunggu di Settings user).
+- **10 Sep 2026** — DEPLOY VERCEL SUKSES: **landing page LIVE di https://pagarnusaindo.vercel.app**. Pendekatan: install vercel CLI (`npm.cmd -g install vercel`; npm.ps1 diblokir), login GitHub via device flow (`vercel.cmd login --github`), deploy pertama gagal karena Vercel deteksi salah "Node" (Tanpa package.json, butuh entrypoint) → diperbaiki dengan `vercel.json` paksa static builder (`builds:[{src:'**',use:'@vercel/static'}]` + routes). Deploy kedua/ketiga sukses 13–15s. `.vercelignore` dibuat (eksklusi .git, server.js, bat, AGENTS.md, md). Meta og/twitter di-update ke domain vercel (commit `1db1299`). Next: domain kustom nanti. Opsional: GitHub Pages masih belum diaktifkan user.
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->
