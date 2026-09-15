@@ -28,7 +28,7 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 
 ## STRUKTUR HALAMAN (urutan section di index.html)
 
-1. `<header>` — hero slider **infinite horizontal scroll kanan→kiri seamless**, kolase 2 gambar `flex:1 cover` memenuhi header (HP `min-height:420px` = desktop)
+1. `<header>` — hero slider **infinite scroll kanan→kiri seamless**, kolase **2 gambar utuh 1:1 (contain, anti tertimpa)** semua layar
 2. "Tentang pagarnusaindo" — prolog + grid nilai (Berkualitas, Terjangkau, Original, Hubungan Baik)
 3. `#preorder` "Promo Pre-Order" — countdown + grid produk pre-order
 4. `#ready-stock` "Ready Stock" — grid produk + tombol "Lihat Semua Produk" (modal)
@@ -110,6 +110,7 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 - **15 Sep 2026** — **Hero slider → infinite scroll**: transisi fade diganti **horizontal infinite scroll kanan→kiri seamless** — wrapper `.hero-track` (`display:flex;will-change:transform`) berisi slide diduplikasi, animasi `@keyframes heroScroll` `translateX(0)→translateX(-50%)` dengan durasi `slideCount*3.5s` linear infinite. HTML hero: `.hero-slider > .hero-track > .slide*2N`. `node --check` lolos, commit `4665017` + push, deploy Vercel `Ready in 6s`, live `www.pagarnusaindo.my.id` terverifikasi: `heroScroll`, `hero-track`, `max-content`, `slide-img` semua ada di HTML.
 - **15 Sep 2026** — **Gambar hero utuh 1:1**: `.slide-img` diubah dari `flex:1 + background-size:cover` (gambar terpotong) → kotak **1:1** (`width:36vmin;max-width:40vw;aspect-ratio:1/1`) + `background-size:contain` + `background-position:center` + `background-repeat:no-repeat`, `.slide` pakai `align-items:center;justify-content:center;gap:3vw` — gambar tampil utuh tanpa potongan. Commit `34b1e02` + push, deploy `Ready in 10s`, live terverifikasi (`background-size: contain`, `aspect-ratio: 1 / 1`, `align-items: center`).
 - **15 Sep 2026** — **Hero kembali full-width + HP seragam desktop**: user minta tampilan "seperti sebelumnya" tapi di HP disamakan dengan desktop. `.slide-img` dikembalikan ke `flex:1 + background-size:cover` (kolase 2 gambar memenuhi seluruh header), aturan 1:1/contain dihapus; `.hero-track .slide` kembali `display:flex`. Di `@media (max-width:640px)` header diubah `min-height:auto`→`min-height:420px` agar sama dengan desktop. Commit `28f652f` + push, deploy `Ready in 6s`, live terverifikasi (`background-size: cover`, `flex: 1`, `min-height: 420px`).
+- **15 Sep 2026** — **Fix gambar hero tertimpa di HP**: kembali `cover` (flex:1) membuat 2 gambar persegi terpotong/tertimpa pada layar sempit. Diterapkan gambar **utuh 1:1** di semua ukuran layar: `.slide-img` `flex:0 0 auto; width:40vmin; max-width:44vw; aspect-ratio:1/1` + `background-size:contain` + `background-repeat:no-repeat`, `.slide` `align-items:center; justify-content:center; gap:3vw` — anti tertimpa & konsisten HP=desktop. Commit `a8c14b7` + push, deploy `Ready in 6s`, live terverifikasi (`contain`, `aspect-ratio`, `gap: 3vw`).
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->
