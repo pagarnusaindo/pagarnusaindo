@@ -82,6 +82,11 @@ header {
         }
 
         /* ===== SLIDE OTOMATIS HEADER ===== */
+        @keyframes heroScroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         .hero-slider {
             position: absolute;
             top: 0;
@@ -89,24 +94,24 @@ header {
             width: 100%;
             height: 100%;
             z-index: 0;
+            overflow: hidden;
         }
 
-        .hero-slider .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+        .hero-track {
+            display: flex;
+            height: 100%;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .hero-track .slide {
+            width: 100vw;
             height: 100%;
             display: flex;
-            opacity: 0;
-            transition: opacity 1.2s ease;
+            flex-shrink: 0;
         }
 
-        .hero-slider .slide.active {
-            opacity: 1;
-        }
-
-        .hero-slider .slide-img {
+        .hero-track .slide-img {
             flex: 1;
             background-size: cover;
             background-position: center;
@@ -1519,7 +1524,7 @@ header {
         setupSliders();
         setupWaLinks();
 
-        // Slide otomatis header: kolase 2 gambar per slide, otomatis bergantian
+        // Slider header: infinite scroll kanan→kiri, kolase 2 gambar per slide
         // (bila pre-order sudah berakhir/kosong, otomatis pakai ready stock)
         function buildHeroSlider() {
             var slider = document.getElementById('hero-slider');
@@ -1529,7 +1534,7 @@ header {
             if (!src.length) src = eff.filter(function (p) { return p.type === 'ready'; });
             var allImgs = [];
             src.forEach(function (p) { p.images.forEach(function (im) { allImgs.push(im); }); });
-            if (!allImgs.length) return;
+            if (allImgs.length < 2) return;
             var slidesHtml = '';
             for (var k = 0; k < allImgs.length; k += 2) {
                 var img1 = allImgs[k];
@@ -1539,16 +1544,15 @@ header {
                     '<div class="slide-img" style="background-image:url(\'' + img2 + '\');"></div>' +
                     '</div>';
             }
-            slider.innerHTML = slidesHtml;
-            var slides = slider.querySelectorAll('.slide');
-            if (!slides.length) return;
-            slides[0].classList.add('active');
-            var i = 0;
-            setInterval(function () {
-                slides[i].classList.remove('active');
-                i = (i + 1) % slides.length;
-                slides[i].classList.add('active');
-            }, 3500);
+            var origHtml = slidesHtml;
+            var track = document.createElement('div');
+            track.className = 'hero-track';
+            track.innerHTML = origHtml + origHtml;
+            slider.innerHTML = '';
+            slider.appendChild(track);
+            var slideCount = Math.ceil(allImgs.length / 2);
+            var duration = slideCount * 3.5;
+            track.style.animation = 'heroScroll ' + duration + 's linear infinite';
         }
         buildHeroSlider();
 
