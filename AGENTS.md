@@ -7,6 +7,7 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 - **Lokasi**: `C:\Users\Lenovo\Documents\pagarnusaindo`
 - **Teknologi**: 1 file `index.html` (CSS inline + JS inline, tanpa build). Server statis Node.js.
 - **WA bisnis**: `+62 857-3629-1986`
+- **Google Analytics (GA4)**: Measurement ID `G-ZJZKC90QFV` (snippet di `<head>` index.html, terpasang 11 Sep 2026)
 - **Sosmed (di halaman)**: IG `@kaospagarnusaindo` (13 ref) & TikTok `@pagarnusaindo` (2 ref) — **tidak seragam, perlu konfirmasi handle mana yang benar**
 - **Menjalankan lokal**: klik `jalankan_server.bat` (menjalankan `node server.js`, port 8000) — IP Wi-Fi ditampilkan di panel .bat, buka di HP via IP itu, atau `node server.js` lalu `http://localhost:8000`
 - **Catatan mesin**: Python TIDAK terpasang; Node v24 TERSEDIA. OS Windows.
@@ -20,10 +21,10 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 | `jalankan_server.bat` | Shortcut: jalankan server + tampilkan IP |
 | `logo.png` | Logo brand di header |
 | `logo-icon-browser.png` | Favicon + apple-touch-icon |
-| `background.png` | Background header & CTA band (gradien hijau overlay) |
+| `background.jpg` | Background CTA band (asli `background.png` 1063KB → dikonversi JPG 176KB) |
 | `galeri-kami-1..11.jpeg` | 11 foto galeri sosial (link ke IG) |
 | `testimoni-1..3.jpeg` | 3 screenshot testimoni |
-| `nama-produk-1/2/3.jpg` | Foto produk (jersey-1..3, jacket-coach-1..3, kemeja-workshirt-1..3, polo-shirt-spesial-hut-ri-81-1..3, t-shirt-trident-bearer-1..5, rompi-1..3) |
+| `nama-produk-1/2/3.jpg` | Foto produk (jersey-1..3, jacket-coach-1..3, kemeja-workshirt-1..3, polo-shirt-spesial-hut-ri-81-1..3, t-shirt-trident-bearer-1..5, rompi-1..4) |
 
 ## STRUKTUR HALAMAN (urutan section di index.html)
 
@@ -33,11 +34,11 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 4. `#ready-stock` "Ready Stock" — grid produk + tombol "Lihat Semua Produk" (modal)
 5. `#cara-order` — 4 langkah cara order
 6. `#testimoni` — grid screenshot testimoni (hanya gambar, tanpa teks)
-7. CTA band "Siap Tampil dengan Koleksi Kami?" — background.png + overlay hijau
+7. CTA band "Siap Tampil dengan Koleksi Kami?" — background.jpg + overlay hijau
 8. `#galeri` "Galeri Kami" — 11 foto, klik → IG
 9. Modal "Semua Produk Ready Stock" (`#all-products-modal` + `#all-products-grid`)
 10. Footer 3 kolom — brand+sosmed, menu cepat, kontak & layanan
-11. Tombol WA melayang kiri bawah
+11. Tombol WA melayang kiri bawah (`.wa-float`, ditambahkan 11 Sep 2026 — sebelumnya di kode TIDAK ada padahal tercatat di doc)
 
 ## LOGIKA PENTING — PRE-ORDER OTOMATIS PINDAH KE READY STOCK **(JANGAN UBAH MANUAL)**
 
@@ -50,13 +51,13 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 
 ### DATA PRODUK SAAT INI (per 10 Sep 2026)
 
-`type:'ready'` (6):
+`type:'ready'` (5, harga dari kode 11 Sep 2026 — **perlu verifikasi akhir ke admin karena berbeda dengan doc lama**):
 - Jersey 86 Oversize — Rp 145.000
-- Bundling (Jersey 86 Oversize + T-Shirt Trident Bearer) — Rp 235.000
 - T-Shirt Trident Bearer — Rp 110.000
-- Jacket Coach — Rp 150.000
-- Polo Shirt Spesial HUT RI 81 — Rp 135.000
-- Kemeja Workshirt — Rp 135.000
+- Jacket Coach — Rp 175.000 (doc lama 150.000)
+- Polo Shirt Spesial HUT RI 81 — Rp 125.000 (doc lama 135.000)
+- Kemeja Workshirt — Rp 150.000 (doc lama 135.000)
+- Catatan: produk **"Bundling (Jersey 86 Oversize + T-Shirt Trident Bearer) Rp 235.000"** tercatat di doc lama tapi TIDAK ada di array `PRODUCTS` — konfirmasi apakah masih dijual, jika ya tambahkan ke kode.
 
 `type:'preorder'` (1, aktif s.d 19 Sep 2026):
 - Rompi — ~~Rp 155.000~~ **Rp 145.000** (priceOld 155.000, priceNew 145.000)
@@ -83,15 +84,12 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 
 ## YANG BELUM DIKERJAKAN / CATATAN
 
-- **LIVE**: landing page online di **https://pagarnusaindo.vercel.app** (Vercel prod, static builder via `vercel.json` builds, alias otomatis). Tetap bisa dipakai sambil menunggu domain. Deploy ulang: `vercel.cmd deploy --prod --yes` dari folder proyek (login tersimpan). Repo GitHub `pagarnusaindo/pagarnusaindo` sinkron (branch `main`).
-- **DOMAIN DALAM PROSES (prioritas next sesi)**: `pagarnusaindo.my.id` dibeli malam 10 Sep di **Domainesia**, status "Aktif", NS `nsx1.domainesia.com` & `nsx2.domainesia.com`. DNS global masih **NXDOMAIN** (delegasi PANDI belum aktif; normal 1–24 jam sejak pembelian). Vercel masih menampilkan **"konfigurasi tidak valid"** (wajar selama DNS belum resolve). Setelah domain resolve:
-  1. Di **DNS Zone Domainesia** tambah record: A `@` → `76.76.21.21`; CNAME `www` → `cname.vercel-dns.com`.
-  2. Di Vercel (Dashboard → proyek → Settings → Domains): domain `pagarnusaindo.my.id` + `www` sudah ditambahkan user; harap akan berubah hijau otomatis (atau klik Refresh).
-  3. Ganti meta og/twitter di `index.html` dari `https://pagarnusaindo.vercel.app/...` → `https://pagarnusaindo.my.id/...` → redeploy + verifikasi preview share (og:image = `https://pagarnusaindo.my.id/logo.png`).
-  - Jika masih NXDOMAIN >24 jam → hubungi support Domainesia.
+- **LIVE**: **https://www.pagarnusaindo.my.id** + apex `pagarnusaindo.my.id` keduanya resolve ke Vercel (11 Sep 2026 terverifikasi). Alias `pagarnusaindo.vercel.app` tetap aktif (tidak di-redirect — kanonik sudah di-set di HTML). Deploy ulang: `vercel.cmd deploy --prod --yes` dari folder proyek. **CATATAN: token Vercel sempat `Not authorized` 11 Sep → login ulang `vercel.cmd login --github` (device flow).** Repo GitHub `pagarnusaindo/pagarnusaindo` sinkron (branch `main`).
+- **DOMAIN SELESAI (11 Sep 2026)**: DNS apex A `@`→76.76.21.21 (ter-query jadi 216.198.79.1 global anycast) + CNAME `www`→`cname.vercel-dns.com` sudah aktif; meta og/twitter & canonical sudah diganti ke `https://pagarnusaindo.my.id/`. Sisa: verifikasi preview share sesekali; jika buat aset og:image khusus 1200×630 (kolase produk) ganti `og:image` dari `logo.png`.
 - **QA live page (10 Sep malam)**: title/meta description OK; nomor WA `6285736291986` benar (link dibangun runtime, bukan di HTML statis); template pesan WA OK; countdown `2026-09-19T23:59:59`; grid pre-order/ready/modal/"Stay tune" semuanya ada. **Temuan**: handle IG (@kaospagarnusaindo) berbeda dengan TikTok (@pagarnusaindo) → konfirmasi handle yang benar lalu samakan di halaman + doc.
 - **Opsional**: tambahkan JSON-LD (data terstruktur toko/produk) untuk SEO; siapkan 3–5 aset iklan + caption (untuk Meta nanti); GitHub Pages bisa jadi cadangan (belum diaktifkan)
-- Halaman dioptimasi seluler: video header 4.6MB SUDAH dihapus (diganti `background.png`, lalu hero slider foto produk).
+- Halaman dioptimasi seluler: video header 4.6MB SUDAH dihapus (diganti `background.png`, lalu hero slider foto produk). Per 11 Sep 2026 semua gambar dikompres/turun ukuran (total 5.1MB → 2.6MB); backup asli: `%TEMP%\opencode\pagarnusaindo_orig`.
+- **Per 14 Sep 2026**: foto rompi & T-Shirt Trident Bearer diganti user (format PNG), lalu dikonversi & dikompres ke JPG 800px q72 (total 21MB → 0.7MB); backup PNG asli di `%TEMP%\opencode\pagarnusaindo_orig\14sep2026`. Referensi index.html sudah `.jpg`.
 - Jika menambahkan testimoni: crop seragam `height:400px` (`.testimoni-img`, 320px di HP).
 - Verifikasi cepat setelah edit: ekstrak `<script>` dari index.html → `node --check`. Server lokal: `jalankan_server.bat`.
 - Git terinstall; akses `C:\Program Files\Git\cmd\git.exe` (PATH baru berlaku di sesi baru). Vercel CLI global via `npm.cmd`; npm.ps1 diblokir execution policy → selalu pakai `npm.cmd`/`vercel.cmd`.
@@ -102,6 +100,11 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 - **10 Sep 2026** — Hosting ke GitHub: 26 file ber-spasi dirapikan jadi lowercase-hyphen (galeri-kami-*, jacket-coach-*, kemeja-workshirt-*, polo-shirt-spesial-hut-ri-81-*, t-shirt-trident-bearer-*, logo-icon-browser.png) + update semua referensi di index.html (37 aset valid). Git 2.55 diinstall via winget, repo lokal `main` di-init, commit `dc0ce68` (42 file) di-push ke `github.com/pagarnusaindo/pagarnusaindo`. Meta og/twitter placeholder `example.com` diganti URL GitHub Pages (commit `f283178`). BELUM: aktivasi GitHub Pages (menunggu di Settings user).
 - **10 Sep 2026** — DEPLOY VERCEL SUKSES: **landing page LIVE di https://pagarnusaindo.vercel.app**. Pendekatan: install vercel CLI (`npm.cmd -g install vercel`; npm.ps1 diblokir), login GitHub via device flow (`vercel.cmd login --github`), deploy pertama gagal karena Vercel deteksi salah "Node" (Tanpa package.json, butuh entrypoint) → diperbaiki dengan `vercel.json` paksa static builder (`builds:[{src:'**',use:'@vercel/static'}]` + routes). Deploy kedua/ketiga sukses 13–15s. `.vercelignore` dibuat (eksklusi .git, server.js, bat, AGENTS.md, md). Meta og/twitter di-update ke domain vercel (commit `1db1299`). Next: domain kustom nanti. Opsional: GitHub Pages masih belum diaktifkan user.
 - **10 Sep 2026 (malam)** — Domain & QA: user beli `pagarnusaindo.my.id` (Domainesia, status Aktif, NS nsx1/nsx2.domainesia.com); DNS global masih NXDOMAIN (delegasi PANDI belum aktif, normal ≤24 jam) → Vercel tampil merah "konfigurasi tidak valid" (wajar). Saran: tambah record A `@`→76.76.21.21 + CNAME `www`→cname.vercel-dns.com di DNS Zone Domainesia, tunggu propagasi, lalu ganti meta og ke domain baru + redeploy. QA halaman live vercel.app: semua OK (WA 6285736291986, template, countdown, grid). Temuan: handle IG (@kaospagarnusaindo) vs TikTok (@pagarnusaindo) belum seragam — konfirmasi user. Sesi ditutup: besok lanjut cek DNS → record → hijau → meta domain.
+- **11 Sep 2026** — Analisa & perbaikan (item 1, 2, 4 rekomendasi): **(1) kanonik & meta domain** — tambah `<link rel="canonical">` + ganti og:url/og:image/twitter:image dari `vercel.app` → `https://pagarnusaindo.my.id/`; **(2) tombol WA melayang** `.wa-float` (kiri-bawah, teks disembunyikan di ≤640px jadi ikon bulat, `rel="noopener"`, otomatis terpasang `setupWaLinks()`); **(4) kompresi gambar** via System.Drawing: produk JPG resize→800 q72, galeri/testimoni resize→640 lebar q72, `background.png` 1.06MB → `background.jpg` 176KB (PNG dihapus), `logo.png` 187→132KB, `logo-icon-browser.png` 303→56KB; total 5.1MB→2.6MB (−49%). Verifikasi: DNS apex A + CNAME www resolve (domain live), deploy Vercel `Ready in 11s` (token sempat `Not authorized` → login ulang device flow), cek live URL canonical/meta/wa-float OK, semua gambar HTTP 200. Wait: `node --check` lolos. **BELUM/TO-DO**: (a) data produk tidak sinkron (Jacket 175K/Polo 125K/Kemeja 150K di kode vs doc; produk "Bundling 235K" tidak ada di kode) → verifikasi admin & samakan; (b) handle sosmed IG vs TikTok belum seragam; (c) size chart di halaman belum ada; (d) info ongkir/metode bayar/FAQ; (e) CTA hero masih statis ke `#preorder`; (f) og:image khusus 1200×630; (g) JSON-LD, sitemap/robots, Meta Pixel; (h) komit & push ke GitHub belum dilakukan.
+- **11 Sep 2026** — **Google Analytics GA4 terpasang** (ID `G-ZJZKC90QFV`, snippet gtag di `<head>`: script async + inisialisasi). Deploy Vercel sukses 7s, verifikasi live `www.pagarnusaindo.my.id` → gtag js + config terdeteksi. Selanjutnya: cek **Realtime report** di GA (buka situs → lihat sinyal "Active users"); lanjut to-do (a)–(h) di atas.
+- **11 Sep 2026** — **Event konversi klik WA terpasang di GA4**: fungsi `trackWaClick()` + event delegation di level `document` (mencakup semua `.wa-link` statis & dinamis tanpa dobel count) → `gtag('event','wa_click',{event_category:'WhatsApp',event_label:<nama produk atau 'Umum'>})`. Deploy 8s, terverifikasi live. **User harus tandai event ini sebagai konversi di GA**: Admin → Events → cari `wa_click` → toggle "Mark as key event". Catatan: untuk Google Ads nanti, pindahkan/link event ini ke akun Ads, dan belum ada tag konversi Google Ads terpisah.
+- **11 Sep 2026** — **Verifikasi GA4 berhasil** setelah aktivasi `debug_mode:true` sementara + cek Realtime (cara tanpa DebugView). `debug_mode` sudah dimatikan & redeploy (16s). GA menerima data: Realtime menunjukkan user aktif + event `page_view`. Event `wa_click` akan mulai mencatat setelah user menandainya sebagai "key event" di GA. **Status GA4: aktif & berfungsi.**
+- **15 Sep 2026** — **Update foto produk + kompresi**: user mengganti foto rompi (1–4) & T-Shirt Trident Bearer (1–4) dengan versi baru format PNG (total ±21MB, 14 Sep 2026). Dikonversi semua → JPG 800px q72 (total ±0.7MB, −97%), referensi `index.html` di-update `.png`→`.jpg`, PNG asli dihapus (backup: `%TEMP%\opencode\pagarnusaindo_orig\14sep2026`). `node --check` JS lolos. Proyek dibuka di VS Code (via `Code.exe` full path karena `code` tak ada di PATH). **BELUM**: commit+push ke GitHub & deploy Vercel (perubahan dari 11 Sep juga belum di-commit).
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->

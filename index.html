@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pagarnusaindo - Official Store</title>
     <meta name="description" content="pagarnusaindo - Brand apparel lokal. Koleksi jersey oversize, kaos, polo shirt, jacket & rompi berkualitas. Pre-order & ready stock, pesan mudah via WhatsApp.">
+    <link rel="canonical" href="https://pagarnusaindo.my.id/">
+    <!-- GOOGLE ANALYTICS (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJZKC90QFV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-ZJZKC90QFV');
+    </script>
     <link rel="icon" type="image/png" href="logo-icon-browser.png">
     <link rel="apple-touch-icon" href="logo-icon-browser.png">
     <!-- Google Fonts -->
@@ -15,14 +24,14 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="pagarnusaindo - Official Store">
     <meta property="og:description" content="Koleksi apparel lokal berkualitas: jersey oversize, kaos, polo shirt, jacket & rompi. Pesan mudah via WhatsApp.">
-    <meta property="og:image" content="https://pagarnusaindo.vercel.app/logo.png">
+    <meta property="og:image" content="https://pagarnusaindo.my.id/logo.png">
     <meta property="og:image:alt" content="Logo pagarnusaindo">
-    <meta property="og:url" content="https://pagarnusaindo.vercel.app/">
+    <meta property="og:url" content="https://pagarnusaindo.my.id/">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="pagarnusaindo - Official Store">
     <meta name="twitter:description" content="Koleksi apparel lokal berkualitas. Pesan mudah via WhatsApp.">
-    <meta name="twitter:image" content="https://pagarnusaindo.vercel.app/logo.png">
+    <meta name="twitter:image" content="https://pagarnusaindo.my.id/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -75,11 +84,16 @@ header {
         /* ===== SLIDE OTOMATIS HEADER ===== */
         .hero-slider {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vmin;
+            max-width: 600px;
+            aspect-ratio: 1 / 1;
             z-index: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
         }
 
         .hero-slider .slide {
@@ -88,14 +102,19 @@ header {
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center;
+            display: flex;
             opacity: 0;
             transition: opacity 1.2s ease;
         }
 
         .hero-slider .slide.active {
             opacity: 1;
+        }
+
+        .hero-slider .slide-img {
+            flex: 1;
+            background-size: cover;
+            background-position: center;
         }
 
         header .logo {
@@ -769,7 +788,7 @@ header {
         .cta-band {
             background:
                 linear-gradient(rgba(31, 74, 45, 0.82), rgba(49, 113, 68, 0.82)),
-                url('background.png') no-repeat center center/cover;
+                url('background.jpg') no-repeat center center/cover;
             border-radius: 18px;
             padding: 2.5rem 2rem;
             text-align: center;
@@ -834,6 +853,35 @@ header {
             font-size: 0.85rem;
         }
 
+        /* ===== TOMBOL WA MELAYANG ===== */
+        .wa-float {
+            position: fixed;
+            left: 18px;
+            bottom: 18px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 12px 18px;
+            border-radius: 999px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .wa-float:hover {
+            background: #1eb955;
+            transform: translateY(-2px);
+        }
+
+        .wa-float i {
+            font-size: 1.35rem;
+        }
+
         /* ===== RESPONSIVE MOBILE ===== */
         @media (max-width: 640px) {
             body {
@@ -843,6 +891,12 @@ header {
             header {
                 min-height: auto;
                 padding: 2.5rem 1rem;
+            }
+
+            .hero-slider {
+                width: 72vmin;
+                max-width: 380px;
+                border-radius: 12px;
             }
 
             header h1 {
@@ -947,6 +1001,15 @@ header {
             footer {
                 padding-bottom: calc(2rem + env(safe-area-inset-bottom));
             }
+
+            .wa-float {
+                padding: 13px;
+                border-radius: 50%;
+            }
+
+            .wa-float .wa-float-txt {
+                display: none;
+            }
         }
 
         @media (max-width: 400px) {
@@ -1005,7 +1068,7 @@ header {
 
     <!-- PRE-ORDER / PROMO -->
     <div class="container" id="preorder">
-        <h2 class="section-title"><span>Pre-Order & Promo Bundling</span></h2>
+        <h2 class="section-title"><span>Promo Pre-Order</span></h2>
         <p class="sub-label">Periode pre-order: 14 – 19 September 2026. Pesan sekarang, produksi setelah periode berakhir</p>
 
         <div class="countdown-box" id="countdown-box">
@@ -1157,7 +1220,7 @@ header {
             </div>
             <div class="footer-col">
                 <h4>Menu</h4>
-                <a href="#preorder">Pre-Order & Promo Bundling</a>
+                <a href="#preorder">Promo Pre-Order</a>
                 <a href="#ready-stock">Ready Stock</a>
                 <a href="#cara-order">Cara Order</a>
                 <a href="#galeri">Galeri Kami</a>
@@ -1172,6 +1235,12 @@ header {
         </div>
         <p class="footer-copy">&copy; 2026 pagarnusaindo. All rights reserved.</p>
     </footer>
+
+    <!-- TOMBOL WA MELAYANG -->
+    <a href="#" class="wa-float wa-link" data-wa-text="Halo, saya ingin bertanya tentang produk" target="_blank" rel="noopener" aria-label="Chat WhatsApp pagarnusaindo">
+        <i class="fab fa-whatsapp"></i>
+        <span class="wa-float-txt">Chat Admin</span>
+    </a>
 
     <script>
         // ============================================
@@ -1234,7 +1303,7 @@ header {
                 type: 'ready',
                 name: 'T-Shirt Trident Bearer',
                 price: 'Rp 110.000',
-                images: ['t-shirt-trident-bearer-1.jpg', 't-shirt-trident-bearer-2.jpg', 't-shirt-trident-bearer-3.jpg', 't-shirt-trident-bearer-4.jpg', 't-shirt-trident-bearer-5.jpg']
+                images: ['t-shirt-trident-bearer-1.jpg', 't-shirt-trident-bearer-2.jpg', 't-shirt-trident-bearer-3.jpg', 't-shirt-trident-bearer-4.jpg']
             },
             {
                 type: 'ready',
@@ -1260,7 +1329,7 @@ header {
                 name: 'Rompi',
                 priceOld: 'Rp 155.000',
                 priceNew: 'Rp 145.000',
-                images: ['rompi-1.jpg', 'rompi-2.jpg', 'rompi-3.jpg']
+                images: ['rompi-1.jpg', 'rompi-2.jpg', 'rompi-3.jpg', 'rompi-4.jpg']
             }
         ];
 
@@ -1404,6 +1473,27 @@ header {
             });
         }
 
+        // Konversi GA4: tiap klik tombol WhatsApp memicu event 'wa_click'
+        function trackWaClick(link) {
+            var name = 'Umum';
+            var card = link.closest('.product-card');
+            if (card) {
+                var h = card.querySelector('h3');
+                if (h) name = h.textContent;
+            }
+            try {
+                gtag('event', 'wa_click', {
+                    event_category: 'WhatsApp',
+                    event_label: name
+                });
+            } catch (err) {}
+        }
+
+        document.addEventListener('click', function (e) {
+            var link = e.target && e.target.closest ? e.target.closest('.wa-link') : null;
+            if (link) trackWaClick(link);
+        });
+
         // Template pesan pemesanan yang otomatis terisi di WhatsApp
         function buildWaMessage(productName) {
             return "Saya ingin memesan '" + productName + "',\n" +
@@ -1440,7 +1530,7 @@ header {
         setupSliders();
         setupWaLinks();
 
-        // Slide otomatis header: semua foto produk Pre-Order & Promo Bundling
+        // Slide otomatis header: kolase 2 gambar per slide, otomatis bergantian
         // (bila pre-order sudah berakhir/kosong, otomatis pakai ready stock)
         function buildHeroSlider() {
             var slider = document.getElementById('hero-slider');
@@ -1448,12 +1538,18 @@ header {
             var eff = getEffectiveProducts();
             var src = eff.filter(function (p) { return p.type === 'preorder'; });
             if (!src.length) src = eff.filter(function (p) { return p.type === 'ready'; });
+            var allImgs = [];
+            src.forEach(function (p) { p.images.forEach(function (im) { allImgs.push(im); }); });
+            if (!allImgs.length) return;
             var slidesHtml = '';
-            src.forEach(function (p) {
-                p.images.forEach(function (im) {
-                    slidesHtml += '<div class="slide" style="background-image:url(\'' + im + '\');"></div>';
-                });
-            });
+            for (var k = 0; k < allImgs.length; k += 2) {
+                var img1 = allImgs[k];
+                var img2 = allImgs[(k + 1) % allImgs.length];
+                slidesHtml += '<div class="slide">' +
+                    '<div class="slide-img" style="background-image:url(\'' + img1 + '\');"></div>' +
+                    '<div class="slide-img" style="background-image:url(\'' + img2 + '\');"></div>' +
+                    '</div>';
+            }
             slider.innerHTML = slidesHtml;
             var slides = slider.querySelectorAll('.slide');
             if (!slides.length) return;
