@@ -108,20 +108,13 @@ header {
             width: 100vw;
             height: 100%;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3vw;
             flex-shrink: 0;
         }
 
         .hero-track .slide-img {
-            flex: 0 0 auto;
-            width: 40vmin;
-            max-width: 44vw;
-            aspect-ratio: 1 / 1;
-            background-size: contain;
+            flex: 1;
+            background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
         }
 
         header .logo {
@@ -1558,7 +1551,7 @@ header {
             slider.innerHTML = '';
             slider.appendChild(track);
             var slideCount = Math.ceil(allImgs.length / 2);
-            var duration = slideCount * 3.5;
+            var duration = slideCount * 7;
             track.style.animation = 'heroScroll ' + duration + 's linear infinite';
         }
         buildHeroSlider();
