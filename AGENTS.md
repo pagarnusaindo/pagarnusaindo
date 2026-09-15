@@ -28,9 +28,9 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 
 ## STRUKTUR HALAMAN (urutan section di index.html)
 
-1. `<header>` — hero slider otomatis (foto produk), tombol "Lihat Koleksi" → `#preorder`
+1. `<header>` — hero slider kolase persegi **1:1, 2 gambar per slide** auto-slide (foto produk), tombol "Lihat Koleksi" → `#preorder`
 2. "Tentang pagarnusaindo" — prolog + grid nilai (Berkualitas, Terjangkau, Original, Hubungan Baik)
-3. `#preorder` "Pre-Order & Promo Bundling" — countdown + grid produk pre-order
+3. `#preorder` "Promo Pre-Order" — countdown + grid produk pre-order
 4. `#ready-stock` "Ready Stock" — grid produk + tombol "Lihat Semua Produk" (modal)
 5. `#cara-order` — 4 langkah cara order
 6. `#testimoni` — grid screenshot testimoni (hanya gambar, tanpa teks)
@@ -105,6 +105,7 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 - **11 Sep 2026** — **Event konversi klik WA terpasang di GA4**: fungsi `trackWaClick()` + event delegation di level `document` (mencakup semua `.wa-link` statis & dinamis tanpa dobel count) → `gtag('event','wa_click',{event_category:'WhatsApp',event_label:<nama produk atau 'Umum'>})`. Deploy 8s, terverifikasi live. **User harus tandai event ini sebagai konversi di GA**: Admin → Events → cari `wa_click` → toggle "Mark as key event". Catatan: untuk Google Ads nanti, pindahkan/link event ini ke akun Ads, dan belum ada tag konversi Google Ads terpisah.
 - **11 Sep 2026** — **Verifikasi GA4 berhasil** setelah aktivasi `debug_mode:true` sementara + cek Realtime (cara tanpa DebugView). `debug_mode` sudah dimatikan & redeploy (16s). GA menerima data: Realtime menunjukkan user aktif + event `page_view`. Event `wa_click` akan mulai mencatat setelah user menandainya sebagai "key event" di GA. **Status GA4: aktif & berfungsi.**
 - **15 Sep 2026** — **Update foto produk + kompresi**: user mengganti foto rompi (1–4) & T-Shirt Trident Bearer (1–4) dengan versi baru format PNG (total ±21MB, 14 Sep 2026). Dikonversi semua → JPG 800px q72 (total ±0.7MB, −97%), referensi `index.html` di-update `.png`→`.jpg`, PNG asli dihapus (backup: `%TEMP%\opencode\pagarnusaindo_orig\14sep2026`). `node --check` JS lolos. Proyek dibuka di VS Code (via `Code.exe` full path karena `code` tak ada di PATH). **BELUM**: commit+push ke GitHub & deploy Vercel (perubahan dari 11 Sep juga belum di-commit).
+- **15 Sep 2026** — **Judul section + hero kolase + deploy**: (#1) judul `#preorder` diubah "Pre-Order & Promo Bundling" → **"Promo Pre-Order"** (HTML + footer link); (#2) hero slider diubah jadi **kolase persegi 1:1** (`.hero-slider` `width:80vmin;max-width:600px;aspect-ratio:1/1` + `.slide` flex) yang menampilkan **2 gambar per slide** (`.slide-img`), tetap auto-slide 3.5s — pasangan gambar = (k,k+1) wrap-around dari semua foto pre-order/ready; (#3) **commit `6864946`** 41 file + push GitHub; (#4) **deploy Vercel sukses `Ready in 12s`** (token sempat `Not authorized` → login ulang device flow) → live `www.pagarnusaindo.my.id` terverifikasi: judul baru, kolase slide-img, aspect-ratio 1/1, gambar rompi-4.jpg & t-shirt-trident-bearer-1.jpg HTTP 200. **Catatan**: URL deployment-preview Vercel menampilkan "Login - Vercel" (Deployment Protection aktif), tapi domain produksi normal & terbuka.
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->
