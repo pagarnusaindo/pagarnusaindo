@@ -104,6 +104,81 @@ header {
             text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
 
+        /* ===== CAROUSEL PRODUK DI HEADER ===== */
+        .carousel {
+            position: relative;
+            z-index: 1;
+            width: 92%;
+            max-width: 1200px;
+            margin: 0.4rem auto 1rem;
+        }
+
+        .carousel-viewport {
+            overflow: hidden;
+            border-radius: 14px;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 16px;
+            transition: transform 0.4s ease;
+        }
+
+        .carousel-card {
+            flex: 0 0 calc((100% - 32px) / 3);
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+            border: 3px solid rgba(245,214,71,0.55);
+        }
+
+        .carousel-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-card .card-name {
+            padding: 0.55rem 0.4rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #1f4a2d;
+            background: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.55);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.35);
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(0,0,0,0.82);
+        }
+
+        .carousel-arrow.prev { left: -22px; }
+        .carousel-arrow.next { right: -22px; }
+
         /* ===== CONTAINER ===== */
         .container {
             max-width: 1100px;
@@ -847,10 +922,31 @@ header {
                 background-attachment: scroll;
             }
 
-            header {
-                min-height: 420px;
+header {
+                min-height: 480px;
                 padding: 2.5rem 1rem;
             }
+
+            .carousel {
+                width: 96%;
+            }
+
+            .carousel-track {
+                gap: 12px;
+            }
+
+            .carousel-card {
+                flex: 0 0 calc(100% - 12px);
+            }
+
+            .carousel-arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
+            }
+
+            .carousel-arrow.prev { left: 2px; }
+            .carousel-arrow.next { right: 2px; }
 
             header p {
                 font-size: 0.95rem;
@@ -972,6 +1068,13 @@ header {
     <!-- HEADER -->
     <header>
         <img src="logo.png" alt="pagarnusaindo Logo" class="logo">
+        <div class="carousel" id="product-carousel">
+            <button class="carousel-arrow prev" onclick="carouselMove(-1)" aria-label="Produk sebelumnya">&#10094;</button>
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carousel-track"></div>
+            </div>
+            <button class="carousel-arrow next" onclick="carouselMove(1)" aria-label="Produk berikutnya">&#10095;</button>
+        </div>
         <p>Gaya Kasual Modern untuk Aktivitas Sehari-hari</p>
         <a href="#preorder" class="btn-cta"><i class="fas fa-box-open"></i> &nbsp;Lihat Koleksi</a>
     </header>
@@ -1481,6 +1584,41 @@ header {
         // Setup awal setelah render grid utama
         setupSliders();
         setupWaLinks();
+
+        // ============================================
+        // CAROUSEL PRODUK DI HEADER (3 terlihat + panah)
+        // ============================================
+        (function () {
+            var _ci = 0;
+            function buildCarousel() {
+                var track = document.getElementById('carousel-track');
+                if (!track) return;
+                var all = getEffectiveProducts();
+                track.innerHTML = all.map(function (p) {
+                    return '<div class="carousel-card">' +
+                        '<img src="' + p.images[0] + '" alt="' + p.name + '" loading="eager">' +
+                        '<div class="card-name">' + p.name + '</div>' +
+                        '</div>';
+                }).join('');
+                _ci = 0;
+                track.style.transform = 'translateX(0)';
+            }
+            window.carouselMove = function (dir) {
+                var track = document.getElementById('carousel-track');
+                if (!track) return;
+                var cards = track.querySelectorAll('.carousel-card');
+                var n = cards.length;
+                var w = window.innerWidth;
+                var vis = w <= 640 ? 1 : w <= 1024 ? 2 : 3;
+                var maxIdx = Math.max(0, n - vis);
+                _ci = Math.max(0, Math.min(maxIdx, _ci + dir));
+                if (cards[0]) {
+                    var cw = cards[0].getBoundingClientRect().width + 16;
+                    track.style.transform = 'translateX(-' + (_ci * cw) + 'px)';
+                }
+            };
+            buildCarousel();
+        })();
 
         // Lazy-load gambar di bawah layar (hemat data di HP)
         document.querySelectorAll('.social-gallery img, .testimoni-img').forEach(function (img) {
