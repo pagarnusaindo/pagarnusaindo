@@ -195,6 +195,8 @@ header {
             overflow: hidden;
             box-shadow: 0 4px 18px rgba(0,0,0,0.22);
             border: 3px solid rgba(245,214,71,0.55);
+            display: flex;
+            flex-direction: column;
         }
 
         .carousel-card img {
@@ -205,7 +207,7 @@ header {
         }
 
         .carousel-card .card-name {
-            padding: 0.55rem 0.4rem;
+            padding: 0.55rem 0.4rem 0.3rem;
             text-align: center;
             font-weight: 600;
             font-size: 0.88rem;
@@ -214,6 +216,24 @@ header {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .carousel-btn {
+            margin: 0 0.6rem 0.6rem;
+            padding: 8px 12px;
+            background: #25d366;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.2s;
+            display: block;
+        }
+
+        .carousel-btn:hover {
+            background: #1eb955;
         }
 
         .carousel-arrow {
@@ -1419,6 +1439,33 @@ header {
         // ============================================
         var PREORDER_END = '2026-09-19T23:59:59';
 
+        // ============================================
+        // CATAT SUMBER IKLAN (UTM/gclid) dari URL
+        // Otomatis ditambahkan ke pesan WhatsApp
+        // ============================================
+        var AD_SOURCE = (function () {
+            try {
+                var p = new URLSearchParams(location.search);
+                var parts = [];
+                var c = p.get('utm_campaign');
+                var s = p.get('utm_source');
+                var m = p.get('utm_medium');
+                var g = p.get('gclid');
+                if (c) parts.push('Kampanye: ' + c);
+                if (s) parts.push('Sumber: ' + s);
+                if (m) parts.push('Medium: ' + m);
+                if (g) parts.push('GCLID: ' + String(g).slice(0, 12));
+                return parts.join(' | ');
+            } catch (err) { return ''; }
+        })();
+
+        function withAdSource(text) {
+            if (AD_SOURCE && text.indexOf('[Sumber Iklan') === -1) {
+                return text + '\n\n[Sumber Iklan: ' + AD_SOURCE + ']';
+            }
+            return text;
+        }
+
         function pad2(n) {
             return (n < 10 ? '0' : '') + n;
         }
@@ -1639,7 +1686,7 @@ header {
         // ============================================
         function setupWaLinks() {
             document.querySelectorAll('.wa-link').forEach(function (link) {
-                var text = link.getAttribute('data-wa-text') || 'Halo, saya ingin bertanya';
+                var text = withAdSource(link.getAttribute('data-wa-text') || 'Halo, saya ingin bertanya');
                 link.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text);
             });
         }
@@ -1655,7 +1702,8 @@ header {
             try {
                 gtag('event', 'wa_click', {
                     event_category: 'WhatsApp',
-                    event_label: name
+                    event_label: name,
+                    campaign: AD_SOURCE || '(organic)'
                 });
             } catch (err) {}
         }
@@ -1667,12 +1715,12 @@ header {
 
         // Template pesan pemesanan yang otomatis terisi di WhatsApp
         function buildWaMessage(productName) {
-            return "Saya ingin memesan '" + productName + "',\n" +
+            return withAdSource("Saya ingin memesan '" + productName + "',\n" +
                 'Nama Penerima:\n' +
                 'Alamat Tujuan:\n' +
                 'Ket;\n' +
                 '(ukuran) (warna) (panjang/pendek)\n' +
-                'No.Telp/WA Penerima;';
+                'No.Telp/WA Penerima;');
         }
 
         function setupSliders() {
@@ -1729,8 +1777,10 @@ header {
                     return '<div class="carousel-card">' +
                         '<img src="' + p.images[0] + '" alt="' + p.name + '" loading="eager">' +
                         '<div class="card-name">' + p.name + '</div>' +
+                        '<a href="#" class="carousel-btn wa-link" data-wa-text="' + buildWaMessage(p.name) + '" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> &nbsp;Pesan</a>' +
                         '</div>';
                 }).join('');
+                setupWaLinks();
                 _ci = 0;
                 track.style.transform = 'translateX(0)';
             }
