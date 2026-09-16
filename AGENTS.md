@@ -22,7 +22,7 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 | `buka_vscode.bat` | Shortcut: buka proyek ini di VS Code (16 Sep 2026) |
 | `logo.png` | Logo brand di header |
 | `og-image.jpg` | og:image twitter:image 1200×630 kolase produk (15 Sep 2026) |
-| `banner-header.jpg` | Banner poster gradasi hijau→kuning + 6 produk, background header (16 Sep 2026) |
+| `banner-header.jpg` | ~~Banner poster gradasi hijau→kuning + 6 produk~~ **TIDAK DIPAKAI** — header kini transparan, gradient body menyatu. File masih ada di repo tapi tak direferensikan. |
 | `logo-icon-browser.png` | Favicon + apple-touch-icon |
 | `background.jpg` | Background CTA band (asli `background.png` 1063KB → dikonversi JPG 176KB) |
 | `galeri-kami-1..11.jpeg` | 11 foto galeri sosial (link ke IG) |
