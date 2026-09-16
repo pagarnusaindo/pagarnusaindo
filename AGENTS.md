@@ -20,6 +20,7 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 | `server.js` | Static server Node (MIME types, port 8000, host 0.0.0.0) |
 | `jalankan_server.bat` | Shortcut: jalankan server + tampilkan IP |
 | `logo.png` | Logo brand di header |
+| `og-image.jpg` | og:image twitter:image 1200×630 kolase produk (15 Sep 2026) |
 | `logo-icon-browser.png` | Favicon + apple-touch-icon |
 | `background.jpg` | Background CTA band (asli `background.png` 1063KB → dikonversi JPG 176KB) |
 | `galeri-kami-1..11.jpeg` | 11 foto galeri sosial (link ke IG) |
@@ -113,6 +114,7 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 - **15 Sep 2026** — **Fix gambar hero tertimpa di HP**: kembali `cover` (flex:1) membuat 2 gambar persegi terpotong/tertimpa pada layar sempit. Diterapkan gambar **utuh 1:1** di semua ukuran layar: `.slide-img` `flex:0 0 auto; width:40vmin; max-width:44vw; aspect-ratio:1/1` + `background-size:contain` + `background-repeat:no-repeat`, `.slide` `align-items:center; justify-content:center; gap:3vw` — anti tertimpa & konsisten HP=desktop. Commit `a8c14b7` + push, deploy `Ready in 6s`, live terverifikasi (`contain`, `aspect-ratio`, `gap: 3vw`).
 - **15 Sep 2026** — **Hero final: full-width cover + slide lambat**: user minta "seperti sebelumnya saja" tapi diperlambat. `.slide-img` kembali ke `flex:1 + background-size:cover` (kolase 2 gambar memenuhi header sepenuhnya), durasi animasi `heroScroll` dari `slideCount*3.5` → **`slideCount*7`** (2× lebih lambat). Commit `0c27d89` + push, deploy `Ready in 6s`, live terverifikasi (`cover`, `flex: 1`, durasi `* 7`).
 - **15 Sep 2026** — **Fitur pause/resume hero slider**: klik pada foto background → slide **pause** (ikona tengah berubah ▶, `animationPlayState=paused`), klik lagi → **jalan lagi** (▶→⏸). Implementasi: `.hero-slider` diberi `cursor:pointer` + `z-index:1` (agar klik tidak tertutup overlay `header::after`), elemen indikator `.hero-toggle` (lingkaran ikon tengah, `pointer-events:none`, hilang 900ms setelah klik), listener klik toggle `paused`. Commit `eb3a73a` + push, deploy `Ready in 5s`, live terverifikasi (`hero-toggle`, `animationPlayState`, `cursor: pointer`).
+- **15 Sep 2026** — **og:image khusus 1200×630 (kolase produk)**: dibuat `og-image.jpg` via System.Drawing (`og-image.jpg: 1200x630, 95 KB`, grid 3×2: Jersey 86 Oversize, T-Shirt Trident, Jacket Coach, Polo HUT RI 81, Kemeja Workshirt, Rompi + header brand & caption). `og:image`/`twitter:image` di-index.html diganti dari `logo.png` → `og-image.jpg`, tambah `og:image:width/height` 1200×630 + `og:image:alt`. Commit `4b35164` + push, deploy `Ready in 16s` (token sempat `Not authorized` → login ulang), live terverifikasi: og:image & twitter:image menunjuk og-image.jpg, file HTTP 200 (95 KB). **CATATAN**: user belum bisa preview gambar sendiri (model tidak dukung input gambar) → sarankan cek manual di og.gg/share preview.
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->
