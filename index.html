@@ -70,6 +70,9 @@ header {
             position: relative;
             overflow: hidden;
             background: #1f4a2d;
+            background-image: url('banner-header.jpg');
+            background-size: cover;
+            background-position: center bottom;
         }
 
         header::after {
@@ -79,89 +82,18 @@ header {
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.15);
             z-index: 0;
         }
 
-        /* ===== SLIDE OTOMATIS HEADER ===== */
-        @keyframes heroScroll {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .hero-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .hero-track {
-            display: flex;
-            height: 100%;
-            width: max-content;
-            will-change: transform;
-        }
-
-        .hero-track .slide {
-            width: 100vw;
-            height: 100%;
-            display: flex;
-            flex-shrink: 0;
-        }
-
-        .hero-track .slide-img {
-            flex: 1;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .hero-toggle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.55);
-            color: #fff;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity .25s ease;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .hero-toggle.visible {
-            opacity: 1;
-        }
-
+        /* ===== BANNER HEADER (poster, background dibelakang logo) ===== */
         header .logo {
-            width: 120px;
+            width: 175px;
             height: auto;
             margin-bottom: 1rem;
             position: relative;
             z-index: 1;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #F5D647;
-            position: relative;
-            z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
         }
 
         header p {
@@ -920,11 +852,6 @@ header {
                 padding: 2.5rem 1rem;
             }
 
-            header h1 {
-                font-size: 1.8rem;
-                letter-spacing: 1px;
-            }
-
             header p {
                 font-size: 0.95rem;
             }
@@ -1044,10 +971,7 @@ header {
 
     <!-- HEADER -->
     <header>
-        <div class="hero-slider" id="hero-slider"></div>
-        <div class="hero-toggle" id="hero-toggle"><i class="fas fa-pause"></i></div>
         <img src="logo.png" alt="pagarnusaindo Logo" class="logo">
-        <h1>pagarnusaindo</h1>
         <p>Gaya Kasual Modern untuk Aktivitas Sehari-hari</p>
         <a href="#preorder" class="btn-cta"><i class="fas fa-box-open"></i> &nbsp;Lihat Koleksi</a>
     </header>
@@ -1557,50 +1481,6 @@ header {
         // Setup awal setelah render grid utama
         setupSliders();
         setupWaLinks();
-
-        // Slider header: infinite scroll kanan→kiri, kolase 2 gambar per slide
-        // (bila pre-order sudah berakhir/kosong, otomatis pakai ready stock)
-        function buildHeroSlider() {
-            var slider = document.getElementById('hero-slider');
-            if (!slider) return;
-            var eff = getEffectiveProducts();
-            var src = eff.filter(function (p) { return p.type === 'preorder'; });
-            if (!src.length) src = eff.filter(function (p) { return p.type === 'ready'; });
-            var allImgs = [];
-            src.forEach(function (p) { p.images.forEach(function (im) { allImgs.push(im); }); });
-            if (allImgs.length < 2) return;
-            var slidesHtml = '';
-            for (var k = 0; k < allImgs.length; k += 2) {
-                var img1 = allImgs[k];
-                var img2 = allImgs[(k + 1) % allImgs.length];
-                slidesHtml += '<div class="slide">' +
-                    '<div class="slide-img" style="background-image:url(\'' + img1 + '\');"></div>' +
-                    '<div class="slide-img" style="background-image:url(\'' + img2 + '\');"></div>' +
-                    '</div>';
-            }
-            var origHtml = slidesHtml;
-            var track = document.createElement('div');
-            track.className = 'hero-track';
-            track.innerHTML = origHtml + origHtml;
-            slider.innerHTML = '';
-            slider.appendChild(track);
-            var slideCount = Math.ceil(allImgs.length / 2);
-            var duration = slideCount * 7;
-            track.style.animation = 'heroScroll ' + duration + 's linear infinite';
-            var paused = false;
-            var toggle = document.getElementById('hero-toggle');
-            slider.addEventListener('click', function () {
-                paused = !paused;
-                track.style.animationPlayState = paused ? 'paused' : 'running';
-                if (toggle) {
-                    toggle.classList.toggle('visible', true);
-                    toggle.innerHTML = paused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
-                    clearTimeout(toggle._t);
-                    toggle._t = setTimeout(function () { toggle.classList.remove('visible'); }, 900);
-                }
-            });
-        }
-        buildHeroSlider();
 
         // Lazy-load gambar di bawah layar (hemat data di HP)
         document.querySelectorAll('.social-gallery img, .testimoni-img').forEach(function (img) {
