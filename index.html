@@ -1069,7 +1069,18 @@ header {
             .carousel-arrow.prev { left: 2px; }
             .carousel-arrow.next { right: 2px; }
 
-            header p {
+.header-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+            color: #fff;
+            text-shadow: 1px 2px 5px rgba(0,0,0,0.45);
+            margin-bottom: 0.4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
                 font-size: 0.95rem;
             }
 
@@ -1204,6 +1215,7 @@ header {
 
     <!-- HEADER -->
     <header>
+        <h1 class="header-title">Kaos, Jersey &amp; Jaket Lokal Berkualitas</h1>
         <div class="carousel" id="product-carousel">
             <button class="carousel-arrow prev" onclick="carouselMove(-1)" aria-label="Produk sebelumnya">&#10094;</button>
             <div class="carousel-viewport">
@@ -1211,7 +1223,7 @@ header {
             </div>
             <button class="carousel-arrow next" onclick="carouselMove(1)" aria-label="Produk berikutnya">&#10095;</button>
         </div>
-        <p>Gaya Kasual Modern untuk Aktivitas Sehari-hari</p>
+        <p>Gaya kasual modern untuk aktivitas sehari-hari &mdash; pesan mudah via WhatsApp</p>
         <a href="#preorder" class="btn-cta"><i class="fas fa-box-open"></i> &nbsp;Lihat Koleksi</a>
     </header>
 
