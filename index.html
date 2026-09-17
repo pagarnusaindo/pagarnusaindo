@@ -344,6 +344,22 @@ header {
             overflow: hidden;
         }
 
+        .pre-img-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            height: 100%;
+            gap: 3px;
+            background: #fafafa;
+        }
+
+        .pre-img-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         /* ===== IMAGE SLIDER ===== */
         .slider {
             position: relative;
@@ -1266,10 +1282,10 @@ header {
     <!-- PRE-ORDER / PROMO -->
     <div class="container" id="preorder">
         <h2 class="section-title"><span>Promo Pre-Order</span></h2>
-        <p class="sub-label">Periode pre-order: 14 – 19 September 2026. Pesan sekarang, produksi setelah periode berakhir</p>
+        <p class="sub-label">Periode pre-order: 25 September – 4 Oktober 2026. Pesan sekarang, produksi setelah periode berakhir</p>
 
         <div class="countdown-box" id="countdown-box">
-            <p class="countdown-label"><i class="fas fa-clock"></i> Sisa Waktu Pre-Order Berakhir</p>
+            <p class="countdown-label" id="cd-label"><i class="fas fa-clock"></i> Sisa Waktu Pre-Order Berakhir</p>
             <div class="countdown" id="preorder-countdown">
                 <div class="cd-item"><span class="cd-num" id="cd-days">-</span><span class="cd-txt">Hari</span></div>
                 <div class="cd-item"><span class="cd-num" id="cd-hours">-</span><span class="cd-txt">Jam</span></div>
@@ -1446,10 +1462,11 @@ header {
         var WA_NUMBER = '6285736291986';
 
         // ============================================
-        // DEADLINE PRE-ORDER (ubah di sini jika perlu)
+        // PERIODE PRE-ORDER (ubah di sini jika perlu)
         // Format: 'YYYY-MM-DDTHH:mm:ss'
         // ============================================
-        var PREORDER_END = '2026-09-19T23:59:59';
+        var PREORDER_START = '2026-09-25T00:00:00';
+        var PREORDER_END = '2026-10-04T23:59:59';
 
         // ============================================
         // CATAT SUMBER IKLAN (UTM/gclid) dari URL
@@ -1483,11 +1500,13 @@ header {
         }
 
         function updateCountdown() {
+            var now = new Date().getTime();
+            var start = new Date(PREORDER_START).getTime();
             var end = new Date(PREORDER_END).getTime();
-            var diff = end - new Date().getTime();
             var note = document.getElementById('cd-note');
+            var label = document.getElementById('cd-label');
 
-            if (diff <= 0) {
+            if (now > end) {
                 document.getElementById('cd-days').textContent = '00';
                 document.getElementById('cd-hours').textContent = '00';
                 document.getElementById('cd-mins').textContent = '00';
@@ -1497,11 +1516,26 @@ header {
                 return;
             }
 
+            var target = now < start ? start : end;
+            var diff = target - now;
             var s = Math.floor(diff / 1000);
             document.getElementById('cd-days').textContent = pad2(Math.floor(s / 86400));
             document.getElementById('cd-hours').textContent = pad2(Math.floor((s % 86400) / 3600));
             document.getElementById('cd-mins').textContent = pad2(Math.floor((s % 3600) / 60));
             document.getElementById('cd-secs').textContent = pad2(s % 60);
+
+            if (label) {
+                label.innerHTML = now < start
+                    ? '<i class="fas fa-clock"></i> Pre-Order Dimulai Dalam'
+                    : '<i class="fas fa-clock"></i> Sisa Waktu Pre-Order Berakhir';
+            }
+            if (now < start) {
+                note.textContent = 'Pre-order dibuka 25 September 2026, pesan lebih awal agar tidak kehabisan!';
+                note.className = 'countdown-note';
+            } else {
+                note.textContent = 'Jangan lewatkan, periode ini berlaku hingga tanggal di atas.';
+                note.className = 'countdown-note';
+            }
         }
 
         updateCountdown();
@@ -1574,9 +1608,16 @@ header {
 
             list.forEach(function (p, idx) {
                 var sliderId = prefix + '-slider-' + idx;
+                var isPre = p.type === 'preorder';
 
                 var imgHtml;
-                if (p.images.length === 1) {
+                if (isPre) {
+                    imgHtml = '<div class="pre-img-grid">' +
+                        p.images.map(function (im) {
+                            return '<img src="' + im + '" alt="' + p.name + '" loading="lazy">';
+                        }).join('') +
+                        '</div>';
+                } else if (p.images.length === 1) {
                     imgHtml = '<img src="' + p.images[0] + '" alt="' + p.name + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">';
                 } else {
                     imgHtml = '<div class="slider" id="' + sliderId + '">' +
@@ -1591,7 +1632,6 @@ header {
                         '</div>';
                 }
 
-                var isPre = p.type === 'preorder';
                 var badge = isPre ? '<span class="badge badge-preorder">Pre-Order</span>' : '<span class="badge badge-ready">Ready Stock</span>';
 
                 var priceHtml;
