@@ -358,6 +358,7 @@ header {
             height: 100%;
             object-fit: cover;
             display: block;
+            cursor: zoom-in;
         }
 
         /* ===== IMAGE SLIDER ===== */
@@ -507,6 +508,94 @@ header {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 1.5rem;
+        }
+
+        /* ===== LIGHTBOX PERBESAR GAMBAR ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 92vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 1.8rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .lightbox-close:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .lightbox-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .lightbox-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .lightbox-btn.prev {
+            left: 12px;
+        }
+
+        .lightbox-btn.next {
+            right: 12px;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 0.95rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 14px;
+            border-radius: 20px;
         }
 
         .product-info {
@@ -1321,6 +1410,15 @@ header {
         </div>
     </div>
 
+    <!-- LIGHTBOX PERBESAR GAMBAR -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Perbesar gambar">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Tutup">&times;</button>
+        <button class="lightbox-btn prev" id="lightbox-prev" aria-label="Foto sebelumnya">&#10094;</button>
+        <img id="lightbox-img" src="" alt="Perbesar foto produk">
+        <button class="lightbox-btn next" id="lightbox-next" aria-label="Foto berikutnya">&#10095;</button>
+        <div class="lightbox-counter" id="lightbox-counter"></div>
+    </div>
+
 <!-- CARA ORDER -->
     <div class="container" id="cara-order">
         <h2 class="section-title"><span>Cara Order</span></h2>
@@ -1888,6 +1986,65 @@ header {
                 d.classList.toggle('active', i === index);
             });
         }
+
+        // ============================================
+        // LIGHTBOX PERBESAR GAMBAR
+        // Klik gambar produk pre-order → tampil besar,
+        // bisa geser antar foto produk via panah / keyboard
+        // ============================================
+        var lbImages = [];
+        var lbIndex = 0;
+
+        window.openLightbox = function (images, index) {
+            lbImages = images;
+            lbIndex = index || 0;
+            showLightboxImage();
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        };
+
+        function showLightboxImage() {
+            document.getElementById('lightbox-img').src = lbImages[lbIndex];
+            document.getElementById('lightbox-counter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function lightboxNav(dir) {
+            if (!lbImages.length) return;
+            lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+            showLightboxImage();
+        }
+
+        // Delegasi: klik gambar manapun di grid pre-order → perbesar
+        document.addEventListener('click', function (e) {
+            var t = e.target;
+            if (t && t.tagName === 'IMG' && t.closest('.pre-img-grid')) {
+                var grid = t.closest('.pre-img-grid');
+                var imgs = Array.prototype.map.call(grid.querySelectorAll('img'), function (im) {
+                    return im.getAttribute('src');
+                });
+                var idx = imgs.indexOf(t.getAttribute('src'));
+                openLightbox(imgs, idx);
+            }
+        });
+
+        document.getElementById('lightbox').addEventListener('click', function (e) {
+            if (e.target === this) closeLightbox();
+        });
+        document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+        document.getElementById('lightbox-prev').addEventListener('click', function () { lightboxNav(-1); });
+        document.getElementById('lightbox-next').addEventListener('click', function () { lightboxNav(1); });
+        document.addEventListener('keydown', function (e) {
+            var lb = document.getElementById('lightbox');
+            if (!lb.classList.contains('open')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') lightboxNav(-1);
+            if (e.key === 'ArrowRight') lightboxNav(1);
+        });
     </script>
 
 </body>

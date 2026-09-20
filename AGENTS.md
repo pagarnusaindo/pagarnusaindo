@@ -33,7 +33,7 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 
 1. `<header>` — hero slider **infinite scroll kanan→kiri seamless (7s/slide)**, kolase **2 gambar full-width `flex:1 cover`**, **klik background = pause/resume** (`.hero-toggle` ikon tengah)
 2. "Tentang pagarnusaindo" — prolog + grid nilai (Berkualitas, Terjangkau, Original, Hubungan Baik)
-3. `#preorder` "Promo Pre-Order" — countdown + grid produk pre-order
+3. `#preorder` "Promo Pre-Order" — countdown + grid produk pre-order; **produk pre-order tampil 2 gambar sejajar (`.pre-img-grid`, grid 2 kolom) + 1 tombol "Pre-Order Sekarang" di bawahnya** (mulai 17 Sep 2026); **klik gambar → lightbox perbesar** dengan panah antar foto produk (mulai 20 Sep 2026)
 4. `#ready-stock` "Ready Stock" — grid produk + tombol "Lihat Semua Produk" (modal)
 5. `#cara-order` — 4 langkah cara order
 6. `#testimoni` — grid screenshot testimoni (hanya gambar, tanpa teks)
@@ -45,8 +45,8 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 
 ## LOGIKA PENTING — PRE-ORDER OTOMATIS PINDAH KE READY STOCK **(JANGAN UBAH MANUAL)**
 
-- Konstanta `PREORDER_END = '2026-09-19T23:59:59'` di bagian atas `<script>`.
-- `isPreorderActive()` → true sebelum deadline.
+- Konstanta `PREORDER_START = '2026-09-25T00:00:00'` & `PREORDER_END = '2026-10-04T23:59:59'` di bagian atas `<script>` (periode 17 Sep 2026 diubah dari 14–19 Sep).
+- `isPreorderActive()` → true sebelum deadline (END). Countdown pintar: sebelum START tampil "Pre-Order Dimulai Dalam", sesudahnya "Sisa Waktu Pre-Order Berakhir".
 - `getEffectiveProducts()` → salinan PRODUCTS; saat deadline lewat, produk `type:'preorder'` otomatis menjadi `type:'ready'` dan `price` = `priceOld` (harga normal, TANPA diskon).
 - `renderPreorderSection()` → jika pre-order berakhir/kosong, tampilkan kartu pesan **"Nantikan Pre-Order & Promo selanjutnya, Stay tune..!!"** (class `.empty-preorder`) + tombol "Lihat Ready Stock", dan countdown disembunyikan.
 - Semua render memakai produk "efektif": grid ready stock, modal semua produk, hero slider (jika pre-order habis → pakai foto ready stock).
@@ -63,8 +63,8 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 - Kemeja Workshirt — Rp 150.000 (doc lama 135.000)
 - Catatan: produk **"Bundling (Jersey 86 Oversize + T-Shirt Trident Bearer) Rp 235.000"** tercatat di doc lama tapi TIDAK ada di array `PRODUCTS` — konfirmasi apakah masih dijual, jika ya tambahkan ke kode.
 
-`type:'preorder'` (1, aktif s.d 19 Sep 2026):
-- Rompi — ~~Rp 155.000~~ **Rp 145.000** (priceOld 155.000, priceNew 145.000)
+`type:'preorder'` (1, aktif 25 Sep – 4 Okt 2026):
+- **Vest/Rompi Casual** (sebelumnya "Rompi") — ~~Rp 155.000~~ **Rp 145.000** (priceOld 155.000, priceNew 145.000)
 
 ## TEMPLATE PESAN WA (otomatis di link pemesanan)
 
@@ -127,6 +127,9 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 - **16 Sep 2026** — **Analisa kelayakan iklan (skor 6.5/10) + 2 perbaikan siap-iklan**: diberi kritik objektif (blocker: key event GA4 & link Google Ads belum selesai, belum ada Meta Pixel, tidak ada H1/value proposition, kartu carousel tak bisa diklik, handle IG/TikTok belum seragam, mismatch kampanye vs PREORDER_END). User pilih 2 perbaikan: **(1) Tombol "Pesan" di kartu carousel header** — `.carousel-btn` hijau WA di tiap kartu (flex-column card), `setupWaLinks()` dipanggil ulang di `buildCarousel()`; **(2) Pelacakan sumber iklan (UTM/gclid)** — `AD_SOURCE` dibaca dari `location.search` (utm_campaign/source/medium/gclid) + helper `withAdSource()` menambahkan baris `[Sumber Iklan: ...]` ke semua pesan WA (via `setupWaLinks` & `buildWaMessage`, anti-dobel dengan guard string), + param `campaign` ikut event GA4 `wa_click`. Verifikasi JS OK, live deploy `Ready in 6s` (test dengan URL `?utm_campaign=testads&utm_source=instagram` OK). Commit `8c634c2` + push. **BELUM dikerjakan (opsional, user belum pilih)**: H1+headline header, info ongkir/metode bayar + size chart di halaman, seragam penulisan brand & handle sosmed, JSON-LD, Meta Pixel.
 - **16 Sep 2026** — **H1 + headline value proposition di header (saran #3)**: ditambah `<h1 class="header-title">` **"Kaos, Jersey &amp; Jaket Lokal Berkualitas"** (font Poppins 800, `clamp(1.5rem,4.5vw,2.5rem)`, putih + text-shadow, z-index 1 di atas overlay) tepat di atas carousel — satu-satunya H1 di halaman (SEO & relevansi iklan). Subtitle lama diganti "Gaya kasual modern untuk aktivitas sehari-hari — pesan mudah via WhatsApp". Verifikasi: JS OK, jumlah H1=1, live deploy `Ready in 6s` terverifikasi. Commit `0805794` + push.
 - **16 Sep 2026** — **H1 diubah** menjadi **"Official Merchandise Pagar Nusa Indonesia"** (permintaan user). Commit `fcb2bb1` + push, deploy `Ready in 6s`, live terverifikasi.
+- **17 Sep 2026** — **Periode pre-order diganti + tampilan produk pre-order 2 gambar sejajar + deploy**: (1) periode pre-order dari 14–19 Sep 2026 → **25 Sep – 4 Okt 2026**: `PREORDER_START = '2026-09-25T00:00:00'`, `PREORDER_END = '2026-10-04T23:59:59'` (di comment block + JS + teks sub-label "Periode pre-order: 25 September – 4 Oktober 2026"); countdown pintar: sebelum START label jadi "Pre-Order Dimulai Dalam" + note "dibuka 25 September", setelahnya "Sisa Waktu Pre-Order Berakhir" (tambah `id="cd-label"` di HTML `countdown-label`); `isPreorderActive()` tetap end-only (produk Rompi tetap tampil sebelum 25 Sep). (2) **Produk pre-order ditampilkan tanpa slider** → **`.pre-img-grid`** (grid 2 kolom, `gap:3px`, semua gambar sejajar berpasangan — rompi-1&2 lalu rompi-3&4) + **1 tombol "Pre-Order Sekarang" di bawah gambar** (via branch `isPre` di `renderProductCards`); CSS `.pre-img-grid`/`.pre-img-grid img` ditambah; ready stock tetap slider. Verifikasi: `node --check` JS OK, commit `756c695` + push, deploy Vercel `Ready in 7s` (token sempat `Not authorized` → login ulang device flow), live `www.pagarnusaindo.my.id` HTTP 200: teks periode, `PREORDER_END 2026-10-04`, `pre-img-grid`, `cd-label` semua terdeteksi.
+- **17 Sep 2026** — **Nama produk pre-order diganti**: `Rompi` → **`Vest/Rompi Casual`** (array `PRODUCTS`, `index.html` 1 baris). `node --check` OK, commit `37ba0db` + push, deploy Vercel `Ready in 8s`, live terverifikasi (`Vest/Rompi Casual` ada, `name: 'Rompi'` tidak ada).
+- **20 Sep 2026** — **Lightbox perbesar gambar produk pre-order**: `.pre-img-grid img` diberi `cursor:zoom-in`; tambah CSS `.lightbox` (overlay z-index 2000, gambar `object-fit:contain` max 92vw/85vh, tombol tutup ×, panah prev/next, counter "n / total"); markup `#lightbox` di bawah modal semua produk; JS `openLightbox(images,index)`/`closeLightbox()`/`lightboxNav(dir)` + delegasi klik `document` pada gambar `.pre-img-grid` (kumpulkan semua src foto produk tsb, buka di index yang diklik) + tutup via backdrop/Escape, navigasi panah kiri/kanan. Scroll body dikunci saat lightbox terbuka. Verifikasi: `node --check` JS OK. **BELUM**: commit+push GitHub & deploy Vercel.
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->
