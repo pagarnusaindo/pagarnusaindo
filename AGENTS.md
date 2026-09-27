@@ -35,13 +35,43 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 2. "Tentang pagarnusaindo" — prolog + grid nilai (Berkualitas, Terjangkau, Original, Hubungan Baik)
 3. `#preorder` "Promo Pre-Order" — countdown + grid produk pre-order; **produk pre-order tampil 2 gambar sejajar (`.pre-img-grid`, grid 2 kolom) + 1 tombol "Pre-Order Sekarang" di bawahnya** (mulai 17 Sep 2026); **klik gambar → lightbox perbesar** dengan panah antar foto produk (mulai 20 Sep 2026)
 4. `#ready-stock` "Ready Stock" — grid produk + tombol "Lihat Semua Produk" (modal)
-5. `#cara-order` — 4 langkah cara order
+5. `#cara-order` — 4 langkah cara order (sudah disesuaikan dengan alur keranjang: pilih produk & ukuran → masukkan keranjang → kirim via WA → bayar & dikirim)
 6. `#testimoni` — grid screenshot testimoni (hanya gambar, tanpa teks)
 7. CTA band "Siap Tampil dengan Koleksi Kami?" — background.jpg + overlay hijau
 8. `#galeri` "Galeri Kami" — 11 foto, klik → IG
 9. Modal "Semua Produk Ready Stock" (`#all-products-modal` + `#all-products-grid`)
 10. Footer 3 kolom — brand+sosmed, menu cepat, kontak & layanan
 11. Tombol WA melayang kiri bawah (`.wa-float`, ditambahkan 11 Sep 2026 — sebelumnya di kode TIDAK ada padahal tercatat di doc)
+12. **Keranjang belanja** (27 Sep 2026) — ikon `.cart-float` kanan bawah + badge jumlah (`.cart-badge`), drawer `.cart-drawer` dari kanan + `.cart-backdrop`, isi `.cart-body`/`.cart-foot`, notifikasi `.cart-toast`
+
+## KERANJANG BELANJA (27 Sep 2026 — tanpa backend, localStorage)
+
+- Setiap kartu produk punya **pilihan ukuran** (`.size-row` + `.size-btn`; WAJIB pilih ukuran sebelum masuk keranjang, kalau tidak muncul toast "Pilih ukuran dulu"), tombol utama **"Tambah ke Keranjang"** (`.btn-add-cart`; pre-order: "Pre-Order Sekarang" `.btn-preorder`) dan tombol kecil **"Pesan langsung via WA"** (`.btn-wa-mini`, alur lama tetap ada).
+- Data disimpan di `localStorage` key **`pni_cart`** dengan bentuk `[{name, size, qty}]`. Harga **tidak** disimpan di keranjang — selalu diambil ulang dari `getEffectiveProducts()` via `getProductByName()`/`getUnitPrice()`, jadi harga promo pre-order vs harga normal ikut berubah otomatis. Produk pre-order memakai `priceNew` selama pre-order aktif.
+- Fungsi utama: `addToCart()`, `changeQty()`, `removeFromCart()`, `renderCart()`, `buildCartWaMessage()`, `openCart()`, `closeCart()`, `showToast()`, `loadCart()`, `saveCart()`, plus `cartCount()`/`cartTotal()`/`formatRupiah()`. Semua aksi pakai **event delegation** di level `document` (satu blok di akhir script) agar otomatis berlaku untuk kartu ready stock, pre-order, dan kartu di dalam modal.
+- **Checkout = 1 pesan WhatsApp multi-item** (tanpa form pembayaran, tanpa payment gateway). Di dalam `.cart-drawer` ada **form data pemesan** yang WAJIB diisi sebelum bisa kirim: Nama (`#cart-name`), No. WhatsApp (`#cart-wa`, minimal 8 digit), Alamat Pengiriman (`#cart-addr`), dan Catatan opsional (`#cart-note-field`). `checkoutCart()` memvalidasi: bila ada yang kurang → `preventDefault()` + toast "Lengkapi dulu: ..." + fokus ke kolom pertama yang kosong.
+  ```
+  PESANAN BARU - pagarnusaindo
+
+  1. Jersey 86 Oversize (L) x2 = Rp 290.000
+  2. The Weapon (S) x1 = Rp 110.000
+
+  Total: Rp 400.000
+
+  Nama: Budi Santoso
+  No. WhatsApp: 081234567890
+  Alamat Pengiriman:
+  Jl. Merdeka No. 10 RT 02 RW 05, Kel. Sukamaju, Kec. Cibeunying, Bandung 40123
+
+  Catatan: Warna hitam, panjang pendek, 2 pcs
+  ```
+  Tombol `#cart-checkout` tetap classed `.wa-link` → `setupWaLinks()` + event `wa_click` tetap jalan, `withAdSource()` menambahkan `[Sumber Iklan: ...]` bila ada UTM/gclid, dan `syncCheckoutLink()` memperbarui pesan tiap kali isian form berubah (dipasang di event `input` keempat kolom).
+- **Fungsi tambahan form**: `getCartBuyer()` (baca 4 kolom), `syncCheckoutLink()`, `checkoutCart()`.
+- **Ukuran per produk**: default `DEFAULT_SIZES = ['S','M','L','XL','XXL','3XL']` (di atas `PRODUCTS`). Untuk produk dengan ukuran berbeda, tambahkan properti `sizes: [...]` pada objek produk — `renderProductCards()` memakai `p.sizes || DEFAULT_SIZES`.
+- Event GA4 baru: `add_to_cart` (event_label = nama produk, `item_size` = ukuran, `campaign` = UTM), `view_cart` (`value` = total, `currency` IDR), `begin_checkout` (dipanggil setelah validasi form lolos). Silakan tandai `add_to_cart` sebagai **key event** di GA4 juga.
+- CSS: `.size-row/.size-btn`, `.btn-add-cart`, `.btn-wa-mini`, `.cart-float/.cart-badge`, `.cart-backdrop`, `.cart-drawer`, `.cart-head/.cart-close`, `.cart-body`, `.cart-item`, `.cart-qty`, `.cart-remove`, `.cart-empty`, `.cart-form` (+`.cart-form-grid`, `.cart-form-field`, `input/textarea`), `.cart-foot`, `.cart-total`, `.cart-note`, `.cart-toast`. Mobile (≤640px): ikon 50px, `right/bottom: 14px`, drawer `max-width:100%`, grid form 1 kolom.
+- **Data pemesan sengaja tidak disimpan** ke localStorage (cuma isi keranjang) agar data pribadi tidak tertinggal di perangkat. Kalau nanti perlu, tambahkan key terpisah (mis. `pni_buyer`).
+- **Belum ada**: warna per item (hanya ukuran — admin konfirmasi warna via WA), ongkir, metode bayar, dan checkout lewat WhatsApp tanpa pesan otomatis. Kalau nanti ditambah warna, cukup properti `colors` per produk + baris baru di `buildCartWaMessage()`.
 
 ## LOGIKA PENTING — PRE-ORDER OTOMATIS PINDAH KE READY STOCK **(JANGAN UBAH MANUAL)**
 
@@ -50,7 +80,7 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 - `getEffectiveProducts()` → salinan PRODUCTS; saat deadline lewat, produk `type:'preorder'` otomatis menjadi `type:'ready'` dan `price` = `priceOld` (harga normal, TANPA diskon).
 - `renderPreorderSection()` → jika pre-order berakhir/kosong, tampilkan kartu pesan **"Nantikan Pre-Order & Promo selanjutnya, Stay tune..!!"** (class `.empty-preorder`) + tombol "Lihat Ready Stock", dan countdown disembunyikan.
 - Semua render memakai produk "efektif": grid ready stock, modal semua produk, hero slider (jika pre-order habis → pakai foto ready stock).
-- **Aturan tambah produk baru**: cukup isi array `PRODUCTS`; produk pre-order wajib punya `priceOld` (harga normal) + `priceNew` (harga promo). Jangan mengubah `type` produk lama secara manual — biarkan logika otomatis bekerja.
+- **Aturan tambah produk baru**: cukup isi array `PRODUCTS`; produk pre-order wajib punya `priceOld` (harga normal) + `priceNew` (harga promo). Jangan mengubah `type` produk lama secara manual — biarkan logika otomatis bekerja. Produk otomatis dapat tombol keranjang + pilihan ukuran; tambahkan `sizes: [...]` bila daftar ukurannya berbeda dari `DEFAULT_SIZES`.
 
 ### DATA PRODUK SAAT INI (per 10 Sep 2026)
 
@@ -68,13 +98,14 @@ Landing page penjualan apparel (jersey, kaos, jaket, polo, kemeja, rompi) — br
 
 ## TEMPLATE PESAN WA (otomatis di link pemesanan)
 
+Pesan langsung per produk (tombol `.btn-wa-mini` / tombol WA lama):
+
 ```
 Saya ingin memesan '<nama produk>',
-Nama Penerima:
-Alamat Tujuan:
-Ket;
-(ukuran) (warna) (panjang/pendek)
-No.Telp/WA Penerima;
+Nama:
+No. WhatsApp:
+Alamat Pengiriman:
+Catatan (ukuran, warna, panjang/pendek);
 ```
 
 Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua tautan `.wa-link`.
@@ -130,6 +161,8 @@ Dibuat oleh `buildWaMessage(productName)`, dipasang `setupWaLinks()` ke semua ta
 - **17 Sep 2026** — **Periode pre-order diganti + tampilan produk pre-order 2 gambar sejajar + deploy**: (1) periode pre-order dari 14–19 Sep 2026 → **25 Sep – 4 Okt 2026**: `PREORDER_START = '2026-09-25T00:00:00'`, `PREORDER_END = '2026-10-04T23:59:59'` (di comment block + JS + teks sub-label "Periode pre-order: 25 September – 4 Oktober 2026"); countdown pintar: sebelum START label jadi "Pre-Order Dimulai Dalam" + note "dibuka 25 September", setelahnya "Sisa Waktu Pre-Order Berakhir" (tambah `id="cd-label"` di HTML `countdown-label`); `isPreorderActive()` tetap end-only (produk Rompi tetap tampil sebelum 25 Sep). (2) **Produk pre-order ditampilkan tanpa slider** → **`.pre-img-grid`** (grid 2 kolom, `gap:3px`, semua gambar sejajar berpasangan — rompi-1&2 lalu rompi-3&4) + **1 tombol "Pre-Order Sekarang" di bawah gambar** (via branch `isPre` di `renderProductCards`); CSS `.pre-img-grid`/`.pre-img-grid img` ditambah; ready stock tetap slider. Verifikasi: `node --check` JS OK, commit `756c695` + push, deploy Vercel `Ready in 7s` (token sempat `Not authorized` → login ulang device flow), live `www.pagarnusaindo.my.id` HTTP 200: teks periode, `PREORDER_END 2026-10-04`, `pre-img-grid`, `cd-label` semua terdeteksi.
 - **17 Sep 2026** — **Nama produk pre-order diganti**: `Rompi` → **`Vest/Rompi Casual`** (array `PRODUCTS`, `index.html` 1 baris). `node --check` OK, commit `37ba0db` + push, deploy Vercel `Ready in 8s`, live terverifikasi (`Vest/Rompi Casual` ada, `name: 'Rompi'` tidak ada).
 - **20 Sep 2026** — **Lightbox perbesar gambar produk pre-order**: `.pre-img-grid img` diberi `cursor:zoom-in`; tambah CSS `.lightbox` (overlay z-index 2000, gambar `object-fit:contain` max 92vw/85vh, tombol tutup ×, panah prev/next, counter "n / total"); markup `#lightbox` di bawah modal semua produk; JS `openLightbox(images,index)`/`closeLightbox()`/`lightboxNav(dir)` + delegasi klik `document` pada gambar `.pre-img-grid` (kumpulkan semua src foto produk tsb, buka di index yang diklik) + tutup via backdrop/Escape, navigasi panah kiri/kanan. Scroll body dikunci saat lightbox terbuka. Verifikasi: `node --check` JS OK. **BELUM**: commit+push GitHub & deploy Vercel.
+- **27 Sep 2026** — **Fitur KERANJANG BELANJA (localStorage → 1 pesan WA multi-item)**, sesuai pilihan user (checkout via WA, varian ukuran saja, tombol "Tambah ke Keranjang" + WA kecil, hanya ikon melayang). Perubahan di `index.html`: (1) CSS `.size-row/.size-btn`, `.btn-add-cart`, `.btn-wa-mini`, `.cart-float/.cart-badge`, `.cart-backdrop`, `.cart-drawer` (slide dari kanan, max-width 380px), `.cart-item/.cart-qty/.cart-remove`, `.cart-empty`, `.cart-foot/.cart-total/.cart-note`, `.cart-toast`; (2) markup tombol `.cart-float` (kanan bawah, z-999) + `<aside class="cart-drawer">` + `.cart-toast` di bawah `.wa-float`; (3) `DEFAULT_SIZES = ['S','M','L','XL','XXL','3XL']` di atas `PRODUCTS`; (4) `renderProductCards()` kini menyisipkan baris pilihan ukuran + tombol "Tambah ke Keranjang" (pre-order tetap "Pre-Order Sekarang") + `.btn-wa-mini` "Pesan langsung via WA"; (5) modul keranjang di akhir `<script>`: `CART_KEY='pni_cart'`, `loadCart/saveCart/renderCart/addToCart/changeQty/removeFromCart/buildCartWaMessage/openCart/closeCart/showToast/cartCount/cartTotal/formatRupiah/getProductByName/getUnitPrice` + satu blok event delegation; (6) 4 langkah "Cara Order" ditulis ulang mengikuti alur keranjang. Harga tidak disimpan di keranjang (diambil dari `getEffectiveProducts()` tiap render) sehingga promo pre-order ikut terhitung. **Verifikasi**: `node --check` lolos; uji fungsional headless Edge (`--dump-dom` + iframe): 3 kartu ready + 1 pre-order, 18 size-btn, add tanpa ukuran → toast "Pilih ukuran dulu" & badge tetap 0, tambah 2 produk beda ukuran → badge 3, total & subtotal benar (produk pre-order pakai `priceNew` Rp 145.000), drawer berisi 2 item, pesan WA terformat rapi + `[Sumber Iklan: ...]` dari UTM, `localStorage` berisi `[{name,size,qty}]`, hapus item → badge 0 + empty state, kartu di dalam modal semua produk juga berfungsi, tanpa error JS. Uji mobile 375px: tidak ada overflow-x, drawer full width, tombol checkout di atas layar, `.size-row` tidak melewati kartu. Berkas uji `_t.html` sudah dihapus. **BELUM**: commit+push GitHub & deploy Vercel (perubahan lightbox 20 Sep juga masih belum di-deploy). **To-do berikutnya**: (a) commit + push + deploy; (b) tandai `add_to_cart` sebagai key event di GA4; (c) opsional: warna per item, ongkir/metode bayar, JSON-LD produk.
+- **27 Sep 2026 (tambahan)** — **Form data pemesan di keranjang** (permintaan user: "tambahkan format pemesanan yang harus diisi customer: Nama, No. WhatsApp, alamat pengiriman"): markup `.cart-form` (4 kolom: Nama*, No. WhatsApp*, Alamat Pengiriman*, Catatan opsional) di antara `.cart-body` dan `.cart-foot`, otomatis tersembunyi saat keranjang kosong; CSS `.cart-form/.cart-form-grid/.cart-form-field` (grid 2 kolom, 1 kolom di ≤640px); JS `getCartBuyer()`, `syncCheckoutLink()` (event `input` → pesan WA ikut terupdate), `checkoutCart()` (validasi: nama wajib, no. WA wajib & minimal 8 digit, alamat wajib → bila kurang: `preventDefault` + toast "Lengkapi dulu: ..." + fokus kolom pertama, event GA4 `begin_checkout` hanya bila lolos). `buildCartWaMessage()` sekarang menaruh blok data pemesan di bawah total (Catatan hanya bila diisi), dan `buildWaMessage()` (pesan langsung per produk) ikut memakai label baru "Nama / No. WhatsApp / Alamat Pengiriman / Catatan". **Verifikasi**: `node --check` lolos; uji headless Edge di viewport 390px — form tampil saat keranjang berisi, klik checkout kosong → diblokir + toast 3 field + fokus `cart-name`, nomor "123" → ditolak "nomor WhatsApp belum valid", data lengkap → klik diteruskan ke `wa.me`, pesan final memuat 2 item + total Rp 400.000 + data pemesan + catatan + `[Sumber Iklan]`, grid form 1 kolom dan tombol checkout tetap terlihat di layar 760px, tanpa error JS. Berkas uji dihapus. **BELUM**: commit+push+deploy (menunggu persetujuan user).
 
 <!-- Entri baru ditambahkan paling bawah, dengan format:
 - **Tanggal** — Ringkasan: apa yang dikerjakan, file yang diubah, hasil/pengujian, dan apa yang belum selesai (to-do sesi berikutnya). -->
